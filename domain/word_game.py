@@ -16,8 +16,8 @@ class WordGameTemplate(ABC):
     def evaluate_word(self, word):
         pass
 
-    def lookup_word(self, word, **kwargs):
-        if self.word_lookup_service.is_valid(word, **kwargs):
+    def lookup_entry(self, word, **kwargs):
+        if self.word_lookup_service.lookup_entry(word, **kwargs):
             return True
         return False
 
