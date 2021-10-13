@@ -1,4 +1,5 @@
 import json
+from random import randint
 from abc import ABC, abstractmethod
 
 
@@ -17,6 +18,13 @@ class LookupService(ABC):
         if self.data_source is None:
             raise InvalidDataSourceException("No data source has been provided. Load a data source file first")
         return self.data_source[data_source_index][entry_index]
+
+    def get_random_entry_index(self, data_source_index):
+        if self.data_source is None:
+            raise InvalidDataSourceException("No data source has been provided. Load a data source file first")
+        rand_num = randint(0, len(self.data_source[data_source_index]))
+        random_index = list(self.data_source[data_source_index].keys())[rand_num]
+        return random_index
 
     def load_data_source(self, source_files_dict):
         data_source = {}
