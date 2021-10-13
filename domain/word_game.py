@@ -17,10 +17,6 @@ class WordGameTemplate(ABC):
     def evaluate_word(self, word):
         pass
 
-    @abstractmethod
-    def lookup_entry(self, word, **kwargs):
-        pass
-
     def is_in_dictionary(self, word, dictionary_index):
         if self.word_lookup_service.lookup_entry(dictionary_index, word) is not None:
             return True
