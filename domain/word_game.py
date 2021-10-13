@@ -1,5 +1,5 @@
 from abc import ABC, abstractmethod
-from services.lookup_service import LookupService
+from random import shuffle
 
 class WordGameTemplate(ABC):
     def __init__(self, word_lookup_service):
@@ -44,13 +44,13 @@ class SpellingBeeGame(WordGameTemplate):
     def __init__(self, word_lookup_service):
         super().__init__(word_lookup_service)
         self.words_found_list = []
-        self.pangram = self.get_random_pangram()
+        self.pangram = self.randomize_word(self.get_random_pangram())
 
     def get_random_pangram(self):
         return self.word_lookup_service.get_random_entry_index("pangram_dict")
 
-    def randomize_word(self):
-        pass
+    def randomize_word(self, word):
+        return shuffle(list(word))
 
     def calculate_score(self, word):
         word_len = len(word)
