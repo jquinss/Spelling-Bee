@@ -17,7 +17,9 @@ class LookupService(ABC):
     def lookup_entry(self, data_source_index, entry_index):
         if self.data_source is None:
             raise InvalidDataSourceException("No data source has been provided. Load a data source file first")
-        return self.data_source[data_source_index][entry_index]
+        if entry_index in self.data_source[data_source_index]:
+            return self.data_source[data_source_index][entry_index]
+        return None
 
     def get_random_entry_index(self, data_source_index):
         if self.data_source is None:
