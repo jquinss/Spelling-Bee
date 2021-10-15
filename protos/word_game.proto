@@ -1,0 +1,47 @@
+syntax = "proto3";
+
+package app;
+
+service WordGame {
+    rpc CreateGame(GameRequest) returns (GameResponse) {}
+    rpc RegisterPlayer(RegisterRequest) returns (RegisterResponse) {}
+    rpc InitGameRequest(InitRequest) returns (InitResponse) {}
+    rpc SubmitWord(WordSubmissionRequest) returns (WordSubmissionResponse) {}
+}
+
+message GameRequest {
+    string gameType = 1;
+}
+
+message GameResponse {
+    bytes gameId = 1;
+}
+
+message RegisterRequest {
+   bytes gameId = 1;
+   string playerName = 2;
+}
+
+message RegisterResponse {
+    int32 playerIndex = 1;
+}
+
+message InitRequest {
+    bytes gameId = 1;
+}
+
+message InitResponse {
+    string letters = 1;
+}
+
+message WordSubmissionRequest {
+    int32 playerIndex = 1;
+    bytes gameId = 2;
+    string word = 3;
+}
+
+message WordSubmissionResponse {
+    int32 score = 1;
+    int32 total = 2;
+    string message = 3;
+}
