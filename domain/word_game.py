@@ -1,13 +1,31 @@
 from abc import ABC, abstractmethod
 from random import shuffle
+from services.lookup_service import JSONLookupService
 
 class WordGameTemplate(ABC):
     def __init__(self, word_lookup_service):
         self.word_lookup_service = word_lookup_service
         self.players = []
+        self.words_found_list = []
         self.scores = []
         self.total_scores = []
         self.current_player_index = -1
+
+    @abstractmethod
+    def register_player(self, username):
+        pass
+
+    @abstractmethod
+    def setup_game(self):
+        pass
+
+    @abstractmethod
+    def start_game(self):
+        pass
+
+    @abstractmethod
+    def end_game(self):
+        pass
 
     @abstractmethod
     def calculate_score(self, word):
@@ -26,7 +44,9 @@ class WordGameTemplate(ABC):
         score = 0
         is_valid_word, message = self.evaluate_word(word)
         if is_valid_word:
+            self.words_found_list[self.current_player_index].append(word)
             score = self.calculate_score(word)
+            self.scores[self.current_player_index] += score
             self.total_scores[self.current_player_index] += score
         return score, self.total_scores[self.current_player_index], message
 
@@ -39,14 +59,41 @@ class SpellingBeeGame(WordGameTemplate):
 
     def __init__(self, word_lookup_service):
         super().__init__(word_lookup_service)
-        self.words_found_list = []
-        self.pangram = self.randomize_word(self.get_random_pangram())
+        self.pangram = []
+
+    def register_player(self, username):
+        if username not in self.players:
+            index = len(self.players)
+            self.players.append(username)
+            return index
+        else:
+            return -1
+
+    def setup_game(self):
+        for player in self.players:
+            self.words_found_list.append([])
+            self.scores.append([])
+            self.total_scores.append(0)
+
+    def start_game(self):
+        print("Calling start_game()")
+        pangram = self.get_random_pangram()
+        print("Found pangram: " + pangram)
+        rand_pangram = self.randomize_word(pangram)
+        print("Randomized pangram: " + str(rand_pangram))
+        self.pangram = rand_pangram
+        return str(self.pangram)
+
+    def end_game(self):
+        pass
 
     def get_random_pangram(self):
         return self.word_lookup_service.get_random_entry_index("pangram_dict")
 
     def randomize_word(self, word):
-        return shuffle(list(word))
+        letters = list(set(word))
+        shuffle(letters)
+        return letters
 
     def calculate_score(self, word):
         word_len = len(word)
@@ -64,6 +111,7 @@ class SpellingBeeGame(WordGameTemplate):
             return False, "The word {} has already been found".format(word)
 
         letters_set = set(word)
+        print("Got here")
         pangram_set = set(self.pangram)
 
         if len(word) < 4 or not letters_set.issubset(pangram_set) or not self.is_in_dictionary(word, "word_dict"):
@@ -83,4 +131,10 @@ class SpellingBeeGame(WordGameTemplate):
         return False, "Sorry that is not a valid word"
 
 
+class SpellingBeeGameBuilder:
+    def __init__(self):
+        pass
+
+    def __call__(self, dictionaries):
+        return SpellingBeeGame(JSONLookupService(source_files_dict=dictionaries))
 
