@@ -6,22 +6,27 @@ import word_game_pb2
 import word_game_pb2_grpc
 
 
-def run():
-    channel = grpc.insecure_channel('127.0.0.1:50055')
-    stub = word_game_pb2_grpc.WordGameStub(channel)
+class Client:
+    game_type = "SpellingBee"
+    game_loop = True
 
-    game_id = stub.CreateGame(word_game_pb2.GameRequest(gameType="SpellingBee")).gameId
-    player_index = stub.RegisterPlayer(word_game_pb2.RegisterRequest(gameId=game_id, playerName="test")).playerIndex
-    letters = stub.InitGameRequest(word_game_pb2.InitRequest(gameId=game_id)).letters
-    print("Letters: " + letters)
-    submission_response = stub.SubmitWord(word_game_pb2.WordSubmissionRequest(playerIndex=player_index, gameId=game_id,
-                                                                              word="blabla"))
+    def __init__(self):
+        print("Spelling Bee!")
+        self.channel = grpc.insecure_channel('127.0.0.1:50055')
+        self.stub = word_game_pb2_grpc.WordGameStub(self.channel)
+        self.game_id = self.stub.CreateGame(word_game_pb2.GameRequest(gameType=self.game_type)).gameId
+        self.letters = self.stub.InitGameRequest(word_game_pb2.InitRequest(gameId=self.game_id)).letters
 
-    print("Score: " + str(submission_response.score))
-    print("Total: " + str(submission_response.total))
-    print("Message: " + str(submission_response.message))
+    def run(self):
+        while self.game_loop:
+            print(self.letters)
+            word = input("Enter a word: ")
+            response = self.stub.SubmitWord(word_game_pb2.WordSubmissionRequest(gameId=self.game_id, word=word))
+            print(response.message, "- Score:", response.score, "Total:", response.total)
 
 
 if __name__ == '__main__':
     logging.basicConfig()
-    run()
+    client = Client()
+    client.run()
+
