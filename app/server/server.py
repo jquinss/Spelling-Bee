@@ -1,11 +1,10 @@
 import logging
-import time
 from concurrent import futures
 
 import grpc
 
 from domain.word_game import SpellingBeeGameBuilder
-from word_game_pb2 import GameResponse, RegisterResponse, InitResponse, WordSubmissionResponse
+from word_game_pb2 import GameResponse, InitResponse, WordSubmissionResponse
 from word_game_pb2_grpc import WordGameServicer, add_WordGameServicer_to_server
 from services.game_registry import GameRegistry
 from factories.object_factory import ObjectFactory
@@ -28,12 +27,6 @@ class WordGameServer(WordGameServicer):
         print("Created game with id " + str(game_id.bytes))
         return GameResponse(gameId=game_id.bytes)
 
-    def RegisterPlayer(self, request, context):
-        game = self.registry.get_game(request.gameId)
-        player_index = game.register_player(request.playerName)
-        print("Register player with id " + str(player_index))
-        return RegisterResponse(playerIndex=player_index)
-
     def InitGameRequest(self, request, context):
         game = self.registry.get_game(request.gameId)
         game.setup_game()
@@ -42,8 +35,7 @@ class WordGameServer(WordGameServicer):
 
     def SubmitWord(self, request, context):
         game = self.registry.get_game(request.gameId)
-        game.current_player_index = request.playerIndex
-        score, total, message = game.submit_word(request.word)
+        score, total, message = game.check_word(request.word)
         return WordSubmissionResponse(score=score, total=total, message=message)
 
 
