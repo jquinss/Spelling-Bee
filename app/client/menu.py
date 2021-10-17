@@ -50,6 +50,7 @@ class SpellingBeeClientMenu(Menu):
             "That is not a valid choice"
 
     def start_game(self):
+        game_loop = True
         print("You selected to start the game")
 
 menu = SpellingBeeClientMenu()
