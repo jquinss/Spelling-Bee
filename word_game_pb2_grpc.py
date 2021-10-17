@@ -19,11 +19,6 @@ class WordGameStub(object):
                 request_serializer=word__game__pb2.GameRequest.SerializeToString,
                 response_deserializer=word__game__pb2.GameResponse.FromString,
                 )
-        self.RegisterPlayer = channel.unary_unary(
-                '/app.WordGame/RegisterPlayer',
-                request_serializer=word__game__pb2.RegisterRequest.SerializeToString,
-                response_deserializer=word__game__pb2.RegisterResponse.FromString,
-                )
         self.InitGameRequest = channel.unary_unary(
                 '/app.WordGame/InitGameRequest',
                 request_serializer=word__game__pb2.InitRequest.SerializeToString,
@@ -40,12 +35,6 @@ class WordGameServicer(object):
     """Missing associated documentation comment in .proto file."""
 
     def CreateGame(self, request, context):
-        """Missing associated documentation comment in .proto file."""
-        context.set_code(grpc.StatusCode.UNIMPLEMENTED)
-        context.set_details('Method not implemented!')
-        raise NotImplementedError('Method not implemented!')
-
-    def RegisterPlayer(self, request, context):
         """Missing associated documentation comment in .proto file."""
         context.set_code(grpc.StatusCode.UNIMPLEMENTED)
         context.set_details('Method not implemented!')
@@ -70,11 +59,6 @@ def add_WordGameServicer_to_server(servicer, server):
                     servicer.CreateGame,
                     request_deserializer=word__game__pb2.GameRequest.FromString,
                     response_serializer=word__game__pb2.GameResponse.SerializeToString,
-            ),
-            'RegisterPlayer': grpc.unary_unary_rpc_method_handler(
-                    servicer.RegisterPlayer,
-                    request_deserializer=word__game__pb2.RegisterRequest.FromString,
-                    response_serializer=word__game__pb2.RegisterResponse.SerializeToString,
             ),
             'InitGameRequest': grpc.unary_unary_rpc_method_handler(
                     servicer.InitGameRequest,
@@ -110,23 +94,6 @@ class WordGame(object):
         return grpc.experimental.unary_unary(request, target, '/app.WordGame/CreateGame',
             word__game__pb2.GameRequest.SerializeToString,
             word__game__pb2.GameResponse.FromString,
-            options, channel_credentials,
-            insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
-
-    @staticmethod
-    def RegisterPlayer(request,
-            target,
-            options=(),
-            channel_credentials=None,
-            call_credentials=None,
-            insecure=False,
-            compression=None,
-            wait_for_ready=None,
-            timeout=None,
-            metadata=None):
-        return grpc.experimental.unary_unary(request, target, '/app.WordGame/RegisterPlayer',
-            word__game__pb2.RegisterRequest.SerializeToString,
-            word__game__pb2.RegisterResponse.FromString,
             options, channel_credentials,
             insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
 
