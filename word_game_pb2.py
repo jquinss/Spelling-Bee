@@ -19,7 +19,7 @@ DESCRIPTOR = _descriptor.FileDescriptor(
   syntax='proto3',
   serialized_options=None,
   create_key=_descriptor._internal_create_key,
-  serialized_pb=b'\n\x0fword_game.proto\x12\x03\x61pp\"\x1f\n\x0bGameRequest\x12\x10\n\x08gameType\x18\x01 \x01(\t\"\x1e\n\x0cGameResponse\x12\x0e\n\x06gameId\x18\x01 \x01(\x0c\"5\n\x0fRegisterRequest\x12\x0e\n\x06gameId\x18\x01 \x01(\x0c\x12\x12\n\nplayerName\x18\x02 \x01(\t\"\'\n\x10RegisterResponse\x12\x13\n\x0bplayerIndex\x18\x01 \x01(\x05\"\x1d\n\x0bInitRequest\x12\x0e\n\x06gameId\x18\x01 \x01(\x0c\"\x1f\n\x0cInitResponse\x12\x0f\n\x07letters\x18\x01 \x01(\t\"J\n\x15WordSubmissionRequest\x12\x13\n\x0bplayerIndex\x18\x01 \x01(\x05\x12\x0e\n\x06gameId\x18\x02 \x01(\x0c\x12\x0c\n\x04word\x18\x03 \x01(\t\"G\n\x16WordSubmissionResponse\x12\r\n\x05score\x18\x01 \x01(\x05\x12\r\n\x05total\x18\x02 \x01(\x05\x12\x0f\n\x07message\x18\x03 \x01(\t2\x83\x02\n\x08WordGame\x12\x33\n\nCreateGame\x12\x10.app.GameRequest\x1a\x11.app.GameResponse\"\x00\x12?\n\x0eRegisterPlayer\x12\x14.app.RegisterRequest\x1a\x15.app.RegisterResponse\"\x00\x12\x38\n\x0fInitGameRequest\x12\x10.app.InitRequest\x1a\x11.app.InitResponse\"\x00\x12G\n\nSubmitWord\x12\x1a.app.WordSubmissionRequest\x1a\x1b.app.WordSubmissionResponse\"\x00\x62\x06proto3'
+  serialized_pb=b'\n\x0fword_game.proto\x12\x03\x61pp\"\x1f\n\x0bGameRequest\x12\x10\n\x08gameType\x18\x01 \x01(\t\"\x1e\n\x0cGameResponse\x12\x0e\n\x06gameId\x18\x01 \x01(\x0c\"\x1d\n\x0bInitRequest\x12\x0e\n\x06gameId\x18\x01 \x01(\x0c\"\x1f\n\x0cInitResponse\x12\x0f\n\x07letters\x18\x01 \x01(\t\"5\n\x15WordSubmissionRequest\x12\x0e\n\x06gameId\x18\x01 \x01(\x0c\x12\x0c\n\x04word\x18\x02 \x01(\t\"G\n\x16WordSubmissionResponse\x12\r\n\x05score\x18\x01 \x01(\x05\x12\r\n\x05total\x18\x02 \x01(\x05\x12\x0f\n\x07message\x18\x03 \x01(\t2\xc2\x01\n\x08WordGame\x12\x33\n\nCreateGame\x12\x10.app.GameRequest\x1a\x11.app.GameResponse\"\x00\x12\x38\n\x0fInitGameRequest\x12\x10.app.InitRequest\x1a\x11.app.InitResponse\"\x00\x12G\n\nSubmitWord\x12\x1a.app.WordSubmissionRequest\x1a\x1b.app.WordSubmissionResponse\"\x00\x62\x06proto3'
 )
 
 
@@ -89,77 +89,6 @@ _GAMERESPONSE = _descriptor.Descriptor(
 )
 
 
-_REGISTERREQUEST = _descriptor.Descriptor(
-  name='RegisterRequest',
-  full_name='app.RegisterRequest',
-  filename=None,
-  file=DESCRIPTOR,
-  containing_type=None,
-  create_key=_descriptor._internal_create_key,
-  fields=[
-    _descriptor.FieldDescriptor(
-      name='gameId', full_name='app.RegisterRequest.gameId', index=0,
-      number=1, type=12, cpp_type=9, label=1,
-      has_default_value=False, default_value=b"",
-      message_type=None, enum_type=None, containing_type=None,
-      is_extension=False, extension_scope=None,
-      serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
-    _descriptor.FieldDescriptor(
-      name='playerName', full_name='app.RegisterRequest.playerName', index=1,
-      number=2, type=9, cpp_type=9, label=1,
-      has_default_value=False, default_value=b"".decode('utf-8'),
-      message_type=None, enum_type=None, containing_type=None,
-      is_extension=False, extension_scope=None,
-      serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
-  ],
-  extensions=[
-  ],
-  nested_types=[],
-  enum_types=[
-  ],
-  serialized_options=None,
-  is_extendable=False,
-  syntax='proto3',
-  extension_ranges=[],
-  oneofs=[
-  ],
-  serialized_start=89,
-  serialized_end=142,
-)
-
-
-_REGISTERRESPONSE = _descriptor.Descriptor(
-  name='RegisterResponse',
-  full_name='app.RegisterResponse',
-  filename=None,
-  file=DESCRIPTOR,
-  containing_type=None,
-  create_key=_descriptor._internal_create_key,
-  fields=[
-    _descriptor.FieldDescriptor(
-      name='playerIndex', full_name='app.RegisterResponse.playerIndex', index=0,
-      number=1, type=5, cpp_type=1, label=1,
-      has_default_value=False, default_value=0,
-      message_type=None, enum_type=None, containing_type=None,
-      is_extension=False, extension_scope=None,
-      serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
-  ],
-  extensions=[
-  ],
-  nested_types=[],
-  enum_types=[
-  ],
-  serialized_options=None,
-  is_extendable=False,
-  syntax='proto3',
-  extension_ranges=[],
-  oneofs=[
-  ],
-  serialized_start=144,
-  serialized_end=183,
-)
-
-
 _INITREQUEST = _descriptor.Descriptor(
   name='InitRequest',
   full_name='app.InitRequest',
@@ -187,8 +116,8 @@ _INITREQUEST = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=185,
-  serialized_end=214,
+  serialized_start=89,
+  serialized_end=118,
 )
 
 
@@ -219,8 +148,8 @@ _INITRESPONSE = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=216,
-  serialized_end=247,
+  serialized_start=120,
+  serialized_end=151,
 )
 
 
@@ -233,22 +162,15 @@ _WORDSUBMISSIONREQUEST = _descriptor.Descriptor(
   create_key=_descriptor._internal_create_key,
   fields=[
     _descriptor.FieldDescriptor(
-      name='playerIndex', full_name='app.WordSubmissionRequest.playerIndex', index=0,
-      number=1, type=5, cpp_type=1, label=1,
-      has_default_value=False, default_value=0,
-      message_type=None, enum_type=None, containing_type=None,
-      is_extension=False, extension_scope=None,
-      serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
-    _descriptor.FieldDescriptor(
-      name='gameId', full_name='app.WordSubmissionRequest.gameId', index=1,
-      number=2, type=12, cpp_type=9, label=1,
+      name='gameId', full_name='app.WordSubmissionRequest.gameId', index=0,
+      number=1, type=12, cpp_type=9, label=1,
       has_default_value=False, default_value=b"",
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
     _descriptor.FieldDescriptor(
-      name='word', full_name='app.WordSubmissionRequest.word', index=2,
-      number=3, type=9, cpp_type=9, label=1,
+      name='word', full_name='app.WordSubmissionRequest.word', index=1,
+      number=2, type=9, cpp_type=9, label=1,
       has_default_value=False, default_value=b"".decode('utf-8'),
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
@@ -265,8 +187,8 @@ _WORDSUBMISSIONREQUEST = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=249,
-  serialized_end=323,
+  serialized_start=153,
+  serialized_end=206,
 )
 
 
@@ -311,14 +233,12 @@ _WORDSUBMISSIONRESPONSE = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=325,
-  serialized_end=396,
+  serialized_start=208,
+  serialized_end=279,
 )
 
 DESCRIPTOR.message_types_by_name['GameRequest'] = _GAMEREQUEST
 DESCRIPTOR.message_types_by_name['GameResponse'] = _GAMERESPONSE
-DESCRIPTOR.message_types_by_name['RegisterRequest'] = _REGISTERREQUEST
-DESCRIPTOR.message_types_by_name['RegisterResponse'] = _REGISTERRESPONSE
 DESCRIPTOR.message_types_by_name['InitRequest'] = _INITREQUEST
 DESCRIPTOR.message_types_by_name['InitResponse'] = _INITRESPONSE
 DESCRIPTOR.message_types_by_name['WordSubmissionRequest'] = _WORDSUBMISSIONREQUEST
@@ -338,20 +258,6 @@ GameResponse = _reflection.GeneratedProtocolMessageType('GameResponse', (_messag
   # @@protoc_insertion_point(class_scope:app.GameResponse)
   })
 _sym_db.RegisterMessage(GameResponse)
-
-RegisterRequest = _reflection.GeneratedProtocolMessageType('RegisterRequest', (_message.Message,), {
-  'DESCRIPTOR' : _REGISTERREQUEST,
-  '__module__' : 'word_game_pb2'
-  # @@protoc_insertion_point(class_scope:app.RegisterRequest)
-  })
-_sym_db.RegisterMessage(RegisterRequest)
-
-RegisterResponse = _reflection.GeneratedProtocolMessageType('RegisterResponse', (_message.Message,), {
-  'DESCRIPTOR' : _REGISTERRESPONSE,
-  '__module__' : 'word_game_pb2'
-  # @@protoc_insertion_point(class_scope:app.RegisterResponse)
-  })
-_sym_db.RegisterMessage(RegisterResponse)
 
 InitRequest = _reflection.GeneratedProtocolMessageType('InitRequest', (_message.Message,), {
   'DESCRIPTOR' : _INITREQUEST,
@@ -390,8 +296,8 @@ _WORDGAME = _descriptor.ServiceDescriptor(
   index=0,
   serialized_options=None,
   create_key=_descriptor._internal_create_key,
-  serialized_start=399,
-  serialized_end=658,
+  serialized_start=282,
+  serialized_end=476,
   methods=[
   _descriptor.MethodDescriptor(
     name='CreateGame',
@@ -404,19 +310,9 @@ _WORDGAME = _descriptor.ServiceDescriptor(
     create_key=_descriptor._internal_create_key,
   ),
   _descriptor.MethodDescriptor(
-    name='RegisterPlayer',
-    full_name='app.WordGame.RegisterPlayer',
-    index=1,
-    containing_service=None,
-    input_type=_REGISTERREQUEST,
-    output_type=_REGISTERRESPONSE,
-    serialized_options=None,
-    create_key=_descriptor._internal_create_key,
-  ),
-  _descriptor.MethodDescriptor(
     name='InitGameRequest',
     full_name='app.WordGame.InitGameRequest',
-    index=2,
+    index=1,
     containing_service=None,
     input_type=_INITREQUEST,
     output_type=_INITRESPONSE,
@@ -426,7 +322,7 @@ _WORDGAME = _descriptor.ServiceDescriptor(
   _descriptor.MethodDescriptor(
     name='SubmitWord',
     full_name='app.WordGame.SubmitWord',
-    index=3,
+    index=2,
     containing_service=None,
     input_type=_WORDSUBMISSIONREQUEST,
     output_type=_WORDSUBMISSIONRESPONSE,
