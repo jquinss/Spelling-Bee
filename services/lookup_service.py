@@ -48,6 +48,13 @@ class JSONLookupService(LookupService):
         return data
 
 
+class LookupServiceBuilder:
+    def __init__(self):
+        pass
+
+    def __call__(self, source_files_dict):
+        return JSONLookupService(source_files_dict=source_files_dict)
+
+
 class InvalidDataSourceException(Exception):
     pass
-
