@@ -41,15 +41,15 @@ Methods where implementation have been provided (usually common to different wor
 * check_word => Takes a word as argument and returns the word score, total score and a message.
  
 Methods where implementation needs to be provided (different word games may have different implementations):
-* method calculate_word_score => Calculates the score of the word.
-* method evaluate_word => Checks if a word is valid and returns a message.
+* calculate_word_score => Calculates the score of the word.
+* evaluate_word => Checks if a word is valid and returns a message.
 
 
 GameManager class
 Abstract class containing a skeleton of high level operations that are common to a game. All 3 methods defined are abstract as different games may implement them differently:
-* method setup_game => operations to be performed before the game starts (e.g. initialize some variables, etc.)
-* method start_game => operations to be performed during the game.
-* method stop_game => operations to be performed when the game ends (e.g. do some calculations, etc.)
+* setup_game => operations to be performed before the game starts (e.g. initialize some variables, etc.)
+* start_game => operations to be performed during the game.
+* stop_game => operations to be performed when the game ends (e.g. do some calculations, etc.)
 
 
 LookupService class
