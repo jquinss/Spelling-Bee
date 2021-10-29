@@ -54,7 +54,7 @@ class SpellingBeeGame(WordGameTemplate, GameManager):
     PANGRAM_BONUS = 7
     REQUIRED_LETTER_INDEX = 3
 
-    def __init__(self, word_lookup_service):
+    def __init__(self, word_lookup_service=None):
         super().__init__(word_lookup_service)
         self.pangram_letters = []
 
@@ -121,6 +121,5 @@ class SpellingBeeGameBuilder:
     def __init__(self):
         pass
 
-    def __call__(self, dictionaries):
-        return SpellingBeeGame(JSONLookupService(source_files_dict=dictionaries))
-
+    def __call__(self, word_lookup_service):
+        return SpellingBeeGame(word_lookup_service=word_lookup_service)
