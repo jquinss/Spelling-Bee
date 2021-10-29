@@ -33,7 +33,11 @@ Patterns used:
 
 * Where:
 
+GameRegistry class (located in game_registry.py)
+
 * Why:
+
+This class manages the creation, registration and retrieval of games as they are being requested by the user. We want only one instance of this class to be created so the games created and retrieved are unique. In a single-threaded application this may not make a big difference, but in the next assignments, when we use multithreading and multiple users, this will ensure that multiple users will not get, for example, different instances of the class as this can product undesirable effects (e.g. 2 users trying to play together the same game. One user creates a game using a instance of the GameRegistry.class, and the other users tries to join the game using another different instance of the GameRegistry.class. The second user may not be able to access the game as the game has been created and registered in the first instance)
 
 ### Factory pattern
 
