@@ -19,9 +19,27 @@ First run the server.py file to start the server. Next run the client.py file to
 
 ## Patterns
 Patterns used:
-* Template pattern
-* Singleton pattern
-* Factory pattern
+* [Template pattern](#template-pattern)
+* [Singleton pattern](#singleton-pattern)
+* [Factory pattern](#factory-pattern)
+
+### Template pattern
+
+* Where:
+
+* Why:
+
+### Singleton pattern
+
+* Where:
+
+* Why:
+
+### Factory pattern
+
+* Where:
+
+* Why:
 
 ## Status
 This will be further developed in the next assignment.
