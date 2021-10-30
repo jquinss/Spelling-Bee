@@ -1,6 +1,5 @@
 from abc import ABC, abstractmethod
 from random import shuffle
-from services.lookup_service import JSONLookupService
 
 
 class GameManager(ABC):
