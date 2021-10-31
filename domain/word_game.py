@@ -1,5 +1,6 @@
 from abc import ABC, abstractmethod
 from random import shuffle
+from utils.formatter import Formatter
 
 
 class GameManager(ABC):
@@ -65,7 +66,7 @@ class SpellingBeeGame(WordGameTemplate, GameManager):
     def start_game(self):
         pangram = self.get_random_pangram()
         self.pangram_letters = self.randomize_word(pangram)
-        return str(self.pangram_letters)
+        return self.format_pangram_output(self.pangram_letters)
 
     def end_game(self):
         pass
@@ -114,6 +115,13 @@ class SpellingBeeGame(WordGameTemplate, GameManager):
                 return True, "Valid word"
 
         return False, "Sorry that is not a valid word"
+
+    def format_pangram_output(self, collection):
+        formatted_pangram = Formatter.collection_to_string(collection, " ")
+        middle_letter = int((len(formatted_pangram) - 1) / 2)
+        formatted_pangram = Formatter.insert_into_string({middle_letter: "[", middle_letter + 1: "]"},
+                                                         formatted_pangram).upper()
+        return formatted_pangram
 
 
 class SpellingBeeGameBuilder:
