@@ -21,7 +21,7 @@ class Client:
         while self.game_loop:
             print(self.letters)
             word = input("Enter a word: ")
-            response = self.stub.SubmitWord(word_game_pb2.WordSubmissionRequest(gameId=self.game_id, word=word))
+            response = self.stub.SubmitWord(word_game_pb2.WordSubmissionRequest(gameId=self.game_id, word=word.lower()))
             print(response.message, "- Score:", response.score, "Total:", response.total)
 
 
