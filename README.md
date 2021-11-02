@@ -27,9 +27,9 @@ Patterns used:
 
 * Where:
 
-WordGame class (located in word_game.py)  
-GameManager class (located in word_game.py)  
-LookupService class (located in lookup_service.py)  
+WordGame class (located in domain/word_game.py)  
+GameManager class (located in domain/word_game.py)  
+LookupService class (located in services/lookup_service.py)  
 
 * Why:
 
@@ -56,22 +56,35 @@ Abstract class containing a skeleton of high level operations that are common to
 Abstract class containing a skeleton of high level operations that are common to a dictionary lookup service. Only the following method has been defined as abstract: 
 * load_source_file => loads the data from a file to a dictionary. Different lookup services that use dictionaries may have different ways to load the information depending on the type of file (e.g. json, xml, csv)
 
+
 ### Singleton pattern
 
 * Where:
 
-GameRegistry class (located in game_registry.py)
+GameRegistry class (located in services/game_registry.py)
 
 * Why:
 
 **GameRegistry class**  
-This class manages the creation, registration and retrieval of games as they are being requested by the user. We want only one instance of this class to be created so the games created and retrieved are unique. In a single-threaded application this may not make a big difference, but in the next assignments, when we use multithreading and multiple users, this will ensure that multiple users will not get, for example, different instances of the class as this can product undesirable effects (e.g. 2 users trying to play together the same game. One user creates a game using a instance of the GameRegistry.class, and the other users tries to join the game using another different instance of the GameRegistry.class. The second user may not be able to access the game as the game has been created and registered in the first instance)
+This class manages the creation, registration and retrieval of games as they are being requested by the user. We want only one instance of this class to be created so the games created and retrieved are unique. In a single-threaded application this may not make a big difference, but in the next assignments, when we use multithreading and multiple users, this will ensure that multiple users will not get, for example, different instances of the class as this can produce undesirable effects (e.g. 2 users trying to play together the same game. One user creates a game using a instance of the GameRegistry.class, and the other users tries to join the game using another different instance of the GameRegistry.class. The second user may not be able to access the game as the game has been created and registered in the first instance)
+
 
 ### Factory pattern
 
 * Where:
 
+WordGameFactory class (located in domain/word_game.py)
+LookupServiceFactory class (located in services/lookup_service.py)
+
 * Why:
+
+**WordGameFactory class**
+
+
+
+**LookupServiceFactory class**
+
+
 
 ## Status
 This will be further developed in the next assignment.
