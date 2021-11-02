@@ -8,7 +8,7 @@ from word_game_pb2 import GameResponse, InitResponse, WordSubmissionResponse
 from word_game_pb2_grpc import WordGameServicer, add_WordGameServicer_to_server
 from services.game_registry import GameRegistry
 from factories.object_factory import ObjectFactory
-from services.lookup_service import LookupServiceBuilder
+from services.lookup_service import JSONLookupServiceBuilder
 
 class WordGameServer(WordGameServicer):
 
@@ -19,7 +19,7 @@ class WordGameServer(WordGameServicer):
         self.game_type = "SpellingBee"
         self.lookup_service_type = "JSON"
         self.factory = ObjectFactory()
-        self.factory.register_builder(self.lookup_service_type, LookupServiceBuilder())
+        self.factory.register_builder(self.lookup_service_type, JSONLookupServiceBuilder())
         self.factory.register_builder(self.game_type, SpellingBeeGameBuilder())
         self.registry = GameRegistry.get_instance()
 
