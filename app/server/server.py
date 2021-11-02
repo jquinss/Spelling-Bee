@@ -3,12 +3,11 @@ from concurrent import futures
 
 import grpc
 
-from domain.word_game import SpellingBeeGameBuilder
+from domain.word_game import WordGameFactory
 from word_game_pb2 import GameResponse, InitResponse, WordSubmissionResponse
 from word_game_pb2_grpc import WordGameServicer, add_WordGameServicer_to_server
 from services.game_registry import GameRegistry
-from factories.object_factory import ObjectFactory
-from services.lookup_service import JSONLookupServiceBuilder
+from services.lookup_service import LookupServiceFactory
 
 class WordGameServer(WordGameServicer):
 
@@ -18,14 +17,14 @@ class WordGameServer(WordGameServicer):
     def __init__(self):
         self.game_type = "SpellingBee"
         self.lookup_service_type = "JSON"
-        self.factory = ObjectFactory()
-        self.factory.register_builder(self.lookup_service_type, JSONLookupServiceBuilder())
-        self.factory.register_builder(self.game_type, SpellingBeeGameBuilder())
+        self.game_factory = WordGameFactory()
+        self.lookup_service_factory = LookupServiceFactory()
         self.registry = GameRegistry.get_instance()
 
     def CreateGame(self, request, context):
-        lookup_service = self.factory.create(self.lookup_service_type, source_files_dict=self.dictionaries)
-        game = self.factory.create(request.gameType, word_lookup_service=lookup_service)
+        lookup_service = self.lookup_service_factory.create_lookup_service(self.lookup_service_type,
+                                                                           source_files_dict=self.dictionaries)
+        game = self.game_factory.create_word_game(request.gameType, word_lookup_service=lookup_service)
         game_id = self.registry.add_game(game)
         print("Created game with id " + str(game_id.bytes))
         return GameResponse(gameId=game_id.bytes)
