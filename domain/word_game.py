@@ -124,9 +124,9 @@ class SpellingBeeGame(WordGameTemplate, GameManager):
         return formatted_pangram
 
 
-class SpellingBeeGameBuilder:
-    def __init__(self):
-        pass
-
-    def __call__(self, word_lookup_service):
-        return SpellingBeeGame(word_lookup_service=word_lookup_service)
+class WordGameFactory:
+    def create_word_game(self, game_type, word_lookup_service):
+        if game_type == 'SpellingBee':
+            return SpellingBeeGame(word_lookup_service=word_lookup_service)
+        else:
+            raise ValueError(game_type)
