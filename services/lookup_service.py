@@ -48,7 +48,7 @@ class JSONLookupService(LookupService):
         return data
 
 
-class LookupServiceBuilder:
+class JSONLookupServiceBuilder:
     def __init__(self):
         pass
 
