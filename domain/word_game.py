@@ -99,7 +99,7 @@ class SpellingBeeGame(WordGameTemplate, GameManager):
         word_letters_set = set(word)
         pangram_letters_set = set(self.pangram_letters)
 
-        if len(word) < 4 or not word_letters_set.issubset(pangram_letters_set) or \
+        if len(word) < self.MIN_WORD_LEN or not word_letters_set.issubset(pangram_letters_set) or \
                 not self.is_word_in_dictionary(word, "word_dict"):
             return False, "Sorry, that is not a valid word"
 
