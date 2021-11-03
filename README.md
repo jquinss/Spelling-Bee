@@ -80,11 +80,11 @@ LookupServiceFactory class (located in services/lookup_service.py)
 
 **WordGameFactory class**
 
-
+We define the factory method "create_word_game" that encapsulates the creation of word games. By passing parameters of game_type and word_lookup_service, we can retrieve a custom word game. For instance, to create a SpellingBee game we pass the "SpellingBee" parameter as game_type and a particular word lookup service that we want to use. If in the future we want to add more games or other lookup services we just need to modify this class.
 
 **LookupServiceFactory class**
 
-
+In this case we define the factory method "create_lookup_service" that encapsulates the creation of lookup services. By passing parameters of lookup_type and source_files_dict, we can retrieve a custom lookup service. For example, in the SpellingBee game we create a JSON Lookup service by passing the "JSON" parameter as lookup_type and a dictionary containing JSON source files. If in the future we need to create another lookup service (e.g. that retrieves information from XML files) we just need to extend the LookupService class (e.g. add a XMLLookupService class) and modify this method to include that class.
 
 ## Status
 This will be further developed in the next assignment.
