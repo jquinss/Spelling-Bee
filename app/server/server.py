@@ -9,10 +9,11 @@ from word_game_pb2_grpc import WordGameServicer, add_WordGameServicer_to_server
 from services.game_registry import GameRegistry
 from services.lookup_service import LookupServiceFactory
 
+
 class WordGameServer(WordGameServicer):
 
-    dictionaries = {"word_dict": "words_dictionary.json",
-                    "pangram_dict": "pangrams.json"}
+    dictionaries = {"word_dict": "../../data/words_dictionary.json",
+                    "pangram_dict": "../../data/pangrams.json"}
 
     def __init__(self):
         self.game_type = "SpellingBee"
