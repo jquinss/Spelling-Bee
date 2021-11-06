@@ -29,12 +29,14 @@ class WordGameTemplate(ABC):
 
     @abstractmethod
     def calculate_word_score(self, word):
-        """Primitive operation. It needs to be overriden."""
+        """Primitive operation. It needs to be overriden. Different games may use different criteria to calculate the
+        score"""
         pass
 
     @abstractmethod
     def evaluate_word(self, word):
-        """Primitive operation. It needs to be overriden."""
+        """Primitive operation. It needs to be overriden. Different games may use different criteria to evaluate the
+        word (e.g. check if the word is valid or not)"""
         pass
 
     def is_word_in_dictionary(self, word, dictionary_key):
@@ -138,7 +140,7 @@ class SpellingBeeGame(WordGameTemplate, GameManager):
 
         return False, "Sorry that is not a valid word"
 
-    # formats raw pangram
+    # formats raw pangram for sending to the player
     def format_pangram_output(self, iterable):
         formatted_pangram = Formatter.iterable_to_string(iterable, separator=" ")
         middle_letter = int((len(formatted_pangram) - 1) / 2)
