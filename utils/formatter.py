@@ -1,3 +1,5 @@
+# helper class to format the output of a string
+
 class Formatter:
     @staticmethod
     def iterable_to_string(iterable, separator=""):
