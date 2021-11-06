@@ -27,7 +27,6 @@ class WordGameServer(WordGameServicer):
                                                                            source_files_dict=self.dictionaries)
         game = self.game_factory.create_word_game(request.gameType, word_lookup_service=lookup_service)
         game_id = self.registry.add_game(game)
-        print("Created game with id " + str(game_id.bytes))
         return GameResponse(gameId=game_id.bytes)
 
     def InitGameRequest(self, request, context):
