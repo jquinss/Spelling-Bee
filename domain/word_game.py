@@ -116,8 +116,8 @@ class SpellingBeeGame(WordGameTemplate, GameManager):
 
         return False, "Sorry that is not a valid word"
 
-    def format_pangram_output(self, collection):
-        formatted_pangram = Formatter.collection_to_string(collection, " ")
+    def format_pangram_output(self, iterable):
+        formatted_pangram = Formatter.iterable_to_string(iterable, separator=" ")
         middle_letter = int((len(formatted_pangram) - 1) / 2)
         formatted_pangram = Formatter.insert_into_string({middle_letter: "[", middle_letter + 1: "]"},
                                                          formatted_pangram).upper()
