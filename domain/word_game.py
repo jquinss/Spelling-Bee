@@ -6,14 +6,17 @@ from utils.formatter import Formatter
 class GameManager(ABC):
     @abstractmethod
     def setup_game(self):
+        """Primitive operation. It needs to be overriden."""
         pass
 
     @abstractmethod
     def start_game(self):
+        """Primitive operation. It needs to be overriden."""
         pass
 
     @abstractmethod
     def end_game(self):
+        """Primitive operation. It needs to be overriden."""
         pass
 
 
@@ -26,10 +29,12 @@ class WordGameTemplate(ABC):
 
     @abstractmethod
     def calculate_word_score(self, word):
+        """Primitive operation. It needs to be overriden."""
         pass
 
     @abstractmethod
     def evaluate_word(self, word):
+        """Primitive operation. It needs to be overriden."""
         pass
 
     def is_word_in_dictionary(self, word, dictionary_key):
@@ -38,6 +43,13 @@ class WordGameTemplate(ABC):
         return False
 
     def check_word(self, word):
+        """
+            :param word: word chosen by the player
+            :return:
+                    - score - word score
+                    - total_score - total score so far
+                    - message - informational message (e.g. valid word, pangram, etc.)
+        """
         score = 0
         is_valid_word, message = self.evaluate_word(word)
         if is_valid_word:
@@ -80,6 +92,10 @@ class SpellingBeeGame(WordGameTemplate, GameManager):
         return letters
 
     def calculate_word_score(self, word):
+        """
+            :param word: word chosen by the player
+            :return: score: word score
+        """
         word_len = len(word)
         if word_len == self.MIN_WORD_LEN:
             return 1
@@ -93,6 +109,12 @@ class SpellingBeeGame(WordGameTemplate, GameManager):
         return 0
 
     def evaluate_word(self, word):
+        """
+            :param word: word chosen by the player
+            :return:
+                    - boolean - word is valid or not
+                    - message - informational message (e.g. valid word, pangram, etc.)
+        """
         if word in self.words_found_list:
             return False, "The word {} has already been found".format(word)
 
@@ -116,6 +138,7 @@ class SpellingBeeGame(WordGameTemplate, GameManager):
 
         return False, "Sorry that is not a valid word"
 
+    # formats raw pangram
     def format_pangram_output(self, iterable):
         formatted_pangram = Formatter.iterable_to_string(iterable, separator=" ")
         middle_letter = int((len(formatted_pangram) - 1) / 2)
