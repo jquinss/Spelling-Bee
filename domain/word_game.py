@@ -185,3 +185,5 @@ class SpellingBeeGameFactory(WordGameFactory2):
             return SpellingBeeGame(word_lookup_service=self.word_lookup_service)
         elif game_type == 'Multi-vs':
             return MutiVsSpellingBeeGame(word_lookup_service=self.word_lookup_service)
+        else:
+            raise ValueError(game_type)
