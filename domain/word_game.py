@@ -155,3 +155,33 @@ class WordGameFactory:
             return SpellingBeeGame(word_lookup_service=word_lookup_service)
         else:
             raise ValueError(game_type)
+
+
+class WordGameFactoryBuilder:
+    def __init__(self):
+        self.factories = {}
+
+    def register_word_game_factory(self, factory, name):
+        self.factories[name] = factory
+
+    def get_word_game_factory(self, name):
+        factory = self.factories.get(name)
+        if not factory:
+            raise ValueError(name)
+        return factory
+
+
+class WordGameFactory2(ABC):
+    def __init__(self, word_lookup_service):
+        self.word_lookup_service = word_lookup_service
+
+    def create_game(self, game_type, **kwargs):
+        pass
+
+
+class SpellingBeeGameFactory(WordGameFactory2):
+    def create_game(self, game_type, **kwargs):
+        if game_type == 'Single':
+            return SpellingBeeGame(word_lookup_service=self.word_lookup_service)
+        elif game_type == 'Multi-vs':
+            return MutiVsSpellingBeeGame(word_lookup_service=self.word_lookup_service)
