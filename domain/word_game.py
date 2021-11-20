@@ -2,6 +2,7 @@ from abc import ABC, abstractmethod
 from random import shuffle
 from utils.formatter import Formatter
 from threading import Lock
+from enum import Enum
 
 
 class GameManager(ABC):
@@ -206,6 +207,7 @@ class SpellingBeeGame2(WordGameTemplate2, GameManager):
         super().__init__(word_lookup_service)
         self.pangram_letters = []
         self.max_players = max_players
+        self.state = GameState.POST_INIT
 
     def add_player(self, player):
         with self.lock:
@@ -332,3 +334,10 @@ class SpellingBeeGameFactory(WordGameFactory2):
 
 class MaxPlayersLimitReached(Exception):
     pass
+
+
+class GameState(Enum):
+    POST_INIT = 1
+    SET_UP = 2
+    START = 3
+    FINISH = 4
