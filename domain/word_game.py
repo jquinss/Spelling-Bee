@@ -212,12 +212,13 @@ class SpellingBeeGame2(WordGameTemplate2, GameManager):
 
     def add_player(self, player):
         with self.lock:
-            if self.max_players <= len(self.players):
+            if len(self.players) >= self.max_players:
                 raise MaxPlayersLimitReachedError()
             elif self.state != GameState.POST_INIT:
                 raise GameStateError(self.state)
             self.players[player] = {}
-            self.state = GameState.SET_UP
+            if len(self.players) == self.max_players:
+                self.state = GameState.SET_UP
 
     def setup_game(self):
         for player in self.players:
