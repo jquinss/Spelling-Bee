@@ -203,10 +203,11 @@ class SpellingBeeGame2(WordGameTemplate2, GameManager):
     PANGRAM_BONUS = 7
     REQUIRED_LETTER_INDEX = 3
 
-    def __init__(self, word_lookup_service=None, max_players=1):
+    def __init__(self, word_lookup_service=None, max_players=1, min_players=1):
         super().__init__(word_lookup_service)
         self.pangram_letters = []
         self.max_players = max_players
+        self.min_players = min_players
         self.state = GameState.POST_INIT
 
     def add_player(self, player):
