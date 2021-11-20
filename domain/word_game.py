@@ -217,13 +217,11 @@ class SpellingBeeGame2(WordGameTemplate2, GameManager):
             if self.state != GameState.POST_INIT:
                 raise GameStateError(self.state)
             self.players[player] = {}
-            if len(self.players) == self.max_players:
-                self.state = GameState.SET_UP
 
     def setup_game(self):
         if len(self.players) < self.min_players:
             raise MinPlayersRequiredError()
-        if self.state != GameState.SET_UP:
+        if self.state != GameState.POST_INIT:
             raise GameStateError(self.state)
         for player in self.players:
             player["total"] = 0
@@ -231,6 +229,8 @@ class SpellingBeeGame2(WordGameTemplate2, GameManager):
         self.state = GameState.START
 
     def start_game(self):
+        if self.state != GameState.START:
+            raise GameStateError(self.state)
         pangram = self.get_random_pangram()
         self.pangram_letters = self.randomize_word(pangram)
         return self.format_pangram_output(self.pangram_letters)
@@ -352,9 +352,8 @@ class MinPlayersRequiredError(Exception):
 
 class GameState(Enum):
     POST_INIT = 1
-    SET_UP = 2
-    START = 3
-    FINISH = 4
+    START = 2
+    FINISH = 3
 
 
 class GameStateError(Exception):
