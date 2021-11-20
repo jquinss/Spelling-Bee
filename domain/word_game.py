@@ -212,7 +212,7 @@ class SpellingBeeGame2(WordGameTemplate2, GameManager):
     def add_player(self, player):
         with self.lock:
             if self.max_players <= len(self.players):
-                raise MaxPlayersLimitReached()
+                raise MaxPlayersLimitReachedError()
             elif self.state != GameState.POST_INIT:
                 raise GameStateError(self.state)
             self.players[player] = {}
@@ -222,6 +222,7 @@ class SpellingBeeGame2(WordGameTemplate2, GameManager):
         for player in self.players:
             player["total"] = 0
             player["words"] = []
+        self.state = GameState.START
 
     def start_game(self):
         pangram = self.get_random_pangram()
