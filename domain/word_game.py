@@ -62,6 +62,48 @@ class WordGameTemplate(ABC):
         return score, self.total_score, message
 
 
+class WordGameTemplate2(ABC):
+    def __init__(self, word_lookup_service):
+        self.word_lookup_service = word_lookup_service
+        self.players = {}
+        self.words_found_list = {}
+
+    @abstractmethod
+    def calculate_word_score(self, word):
+        """Primitive operation. It needs to be overriden. Different games may use different criteria to calculate the
+        score"""
+        pass
+
+    @abstractmethod
+    def evaluate_word(self, word):
+        """Primitive operation. It needs to be overriden. Different games may use different criteria to evaluate the
+        word (e.g. check if the word is valid or not)"""
+        pass
+
+    def is_word_in_dictionary(self, word, dictionary_key):
+        if self.word_lookup_service.lookup_entry(dictionary_key, word) is not None:
+            return True
+        return False
+
+    def check_word(self, word, player):
+        """
+            :param word: word chosen by the player
+            :param player: player username
+            :return:
+                    - score - word score
+                    - total_score - total score so far
+                    - message - informational message (e.g. valid word, pangram, etc.)
+        """
+        score = 0
+        is_valid_word, message = self.evaluate_word(word)
+        if is_valid_word:
+            score = self.calculate_word_score(word)
+            self.words_found_list[word] = score
+            self.players[player]["words"].append(word)
+            self.players[player]["total"] += score
+        return score, self.players[player]["total"], message
+
+
 class SpellingBeeGame(WordGameTemplate, GameManager):
     MIN_WORD_LEN = 4
     PANGRAM_LEN = 7
