@@ -70,7 +70,6 @@ class WordGameTemplate2(ABC):
         self.word_lookup_service = word_lookup_service
         self.players = {}
         self.words_found_list = {}
-        self.lock = Lock()
 
     @abstractmethod
     def calculate_word_score(self, word):
@@ -98,15 +97,14 @@ class WordGameTemplate2(ABC):
                     - total_score - total score so far
                     - message - informational message (e.g. valid word, pangram, etc.)
         """
-        with self.lock:
-            score = 0
-            is_valid_word, message = self.evaluate_word(word)
-            if is_valid_word:
-                score = self.calculate_word_score(word)
-                self.words_found_list[word] = score
-                self.players[player]["words"].append(word)
-                self.players[player]["total"] += score
-            return score, self.players[player]["total"], message
+        score = 0
+        is_valid_word, message = self.evaluate_word(word)
+        if is_valid_word:
+            score = self.calculate_word_score(word)
+            self.words_found_list[word] = score
+            self.players[player]["words"].append(word)
+            self.players[player]["total"] += score
+        return score, self.players[player]["total"], message
 
 
 class SpellingBeeGame(WordGameTemplate, GameManager):
@@ -208,20 +206,21 @@ class SpellingBeeGame2(WordGameTemplate2, GameManager):
         self.pangram_letters = []
         self.max_players = max_players
         self.min_players = min_players
-        self.state = GameState.POST_INIT
+        self.state = GameState.SET_UP
+        self.lock = Lock()
 
     def add_player(self, player):
         with self.lock:
             if len(self.players) >= self.max_players:
                 raise MaxPlayersLimitReachedError()
-            if self.state != GameState.POST_INIT:
+            if self.state != GameState.SET_UP:
                 raise GameStateError(self.state)
             self.players[player] = {}
 
     def setup_game(self):
         if len(self.players) < self.min_players:
             raise MinPlayersRequiredError()
-        if self.state != GameState.POST_INIT:
+        if self.state != GameState.SET_UP:
             raise GameStateError(self.state)
         for player in self.players:
             player["total"] = 0
@@ -235,7 +234,7 @@ class SpellingBeeGame2(WordGameTemplate2, GameManager):
         self.pangram_letters = self.randomize_word(pangram)
 
     def end_game(self):
-        pass
+        self.state = GameState.FINISH
 
     def get_pangram_letters(self):
         return self.format_pangram_output(self.pangram_letters)
@@ -244,6 +243,12 @@ class SpellingBeeGame2(WordGameTemplate2, GameManager):
         letters = list(set(word))
         shuffle(letters)
         return letters
+
+    def check_word(self, word, player):
+        with self.lock:
+            if self.state != GameState.START:
+                raise GameStateError(self.state)
+            return super().check_word(word, player)
 
     def calculate_word_score(self, word):
         """
@@ -350,7 +355,7 @@ class MinPlayersRequiredError(Exception):
 
 
 class GameState(Enum):
-    POST_INIT = 1
+    SET_UP = 1
     START = 2
     FINISH = 3
 
