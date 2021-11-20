@@ -213,7 +213,10 @@ class SpellingBeeGame2(WordGameTemplate2, GameManager):
         with self.lock:
             if self.max_players <= len(self.players):
                 raise MaxPlayersLimitReached()
+            elif self.state != GameState.POST_INIT:
+                raise GameStateError(self.state)
             self.players[player] = {}
+            self.state = GameState.SET_UP
 
     def setup_game(self):
         for player in self.players:
@@ -332,7 +335,7 @@ class SpellingBeeGameFactory(WordGameFactory2):
             raise ValueError(game_type)
 
 
-class MaxPlayersLimitReached(Exception):
+class MaxPlayersLimitReachedError(Exception):
     pass
 
 
@@ -341,3 +344,8 @@ class GameState(Enum):
     SET_UP = 2
     START = 3
     FINISH = 4
+
+
+class GameStateError(Exception):
+    def __init__(self, game_state):
+        super().__init__(f"Invalid action for the current game state (STATE: {game_state})")
