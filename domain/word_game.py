@@ -231,15 +231,14 @@ class SpellingBeeGame2(WordGameTemplate2, GameManager):
     def start_game(self):
         if self.state != GameState.START:
             raise GameStateError(self.state)
-        pangram = self.get_random_pangram()
+        pangram = self.word_lookup_service.get_random_entry_index("pangram_dict")
         self.pangram_letters = self.randomize_word(pangram)
-        return self.format_pangram_output(self.pangram_letters)
 
     def end_game(self):
         pass
 
-    def get_random_pangram(self):
-        return self.word_lookup_service.get_random_entry_index("pangram_dict")
+    def get_pangram_letters(self):
+        return self.format_pangram_output(self.pangram_letters)
 
     def randomize_word(self, word):
         letters = list(set(word))
