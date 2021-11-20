@@ -223,6 +223,8 @@ class SpellingBeeGame2(WordGameTemplate2, GameManager):
     def setup_game(self):
         if len(self.players) < self.min_players:
             raise MinPlayersRequiredError()
+        if self.state != GameState.SET_UP:
+            raise GameStateError(self.state)
         for player in self.players:
             player["total"] = 0
             player["words"] = []
