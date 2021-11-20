@@ -214,13 +214,15 @@ class SpellingBeeGame2(WordGameTemplate2, GameManager):
         with self.lock:
             if len(self.players) >= self.max_players:
                 raise MaxPlayersLimitReachedError()
-            elif self.state != GameState.POST_INIT:
+            if self.state != GameState.POST_INIT:
                 raise GameStateError(self.state)
             self.players[player] = {}
             if len(self.players) == self.max_players:
                 self.state = GameState.SET_UP
 
     def setup_game(self):
+        if len(self.players) < self.min_players:
+            raise MinPlayersRequiredError()
         for player in self.players:
             player["total"] = 0
             player["words"] = []
@@ -339,6 +341,10 @@ class SpellingBeeGameFactory(WordGameFactory2):
 
 
 class MaxPlayersLimitReachedError(Exception):
+    pass
+
+
+class MinPlayersRequiredError(Exception):
     pass
 
 
