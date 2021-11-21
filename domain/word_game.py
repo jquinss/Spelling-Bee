@@ -306,6 +306,18 @@ class SpellingBeeGame2(WordGameTemplate2, GameManager):
         return formatted_pangram
 
 
+class MultiCoopSpellingBeeGame(SpellingBeeGame2):
+    def __init__(self, word_lookup_service=None, max_players=2):
+        super().__init__(word_lookup_service=word_lookup_service, min_players=2, max_players=max_players)
+        self.total_score = 0
+
+    def check_word(self, word, player):
+        with self.lock:
+            score, player_total, message = super().check_word(word, player)
+            self.total_score += score
+            return score, player_total, message
+
+
 class WordGameFactory:
     def create_word_game(self, game_type, word_lookup_service):
         if game_type == 'SpellingBee':
