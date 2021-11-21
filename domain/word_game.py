@@ -340,8 +340,8 @@ class SpellingBeeGameFactory(WordGameFactory2):
     def create_game(self, game_type, **kwargs):
         if game_type == 'Single':
             return SpellingBeeGame(word_lookup_service=self.word_lookup_service)
-        elif game_type == 'Multi-vs':
-            return MutiVsSpellingBeeGame(word_lookup_service=self.word_lookup_service)
+        elif game_type == 'MultiCoop':
+            return MultiCoopSpellingBeeGame(word_lookup_service=self.word_lookup_service, **kwargs)
         else:
             raise ValueError(game_type)
 
