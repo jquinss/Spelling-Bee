@@ -13,7 +13,7 @@ service WordGame {
 }
 
 message CreateGameRequest {
-    string username = 1
+    string username = 1;
     string gameType = 2;
     string gameMode = 3;
 }
