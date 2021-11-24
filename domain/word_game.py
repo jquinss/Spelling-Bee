@@ -344,18 +344,21 @@ class WordGameFactory2(ABC):
     def __init__(self, word_lookup_service):
         self.word_lookup_service = word_lookup_service
 
-    def create_game(self, game_type, **kwargs):
+    def create_game(self, game_mode, **kwargs):
         pass
 
 
 class SpellingBeeGameFactory(WordGameFactory2):
-    def create_game(self, game_type, **kwargs):
-        if game_type == 'Single':
+    def __init__(self, word_lookup_service):
+        super().__init__(word_lookup_service)
+
+    def create_game(self, game_mode, **kwargs):
+        if game_mode == 'Single':
             return SpellingBeeGame(word_lookup_service=self.word_lookup_service)
-        elif game_type == 'MultiCoop':
+        elif game_mode == 'MultiCoop':
             return MultiCoopSpellingBeeGame(word_lookup_service=self.word_lookup_service, **kwargs)
         else:
-            raise ValueError(game_type)
+            raise ValueError(game_mode)
 
 
 class MaxPlayersLimitReachedError(Exception):
