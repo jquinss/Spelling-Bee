@@ -66,7 +66,7 @@ message GameStatusRequest {
 }
 
 message GameStatusResponse {
-    string status = 1;
+    string statusInfo = 1;
 }
 
 message EndGameRequest {
@@ -74,5 +74,5 @@ message EndGameRequest {
 }
 
 message EndGameResponse {
-    int32 response = 1;
+    int32 responseCode = 1;
 }
