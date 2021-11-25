@@ -213,6 +213,8 @@ class SpellingBeeGame2(WordGameTemplate2, GameManager):
         with self.lock:
             if len(self.players) >= self.max_players:
                 raise MaxPlayersLimitReachedError()
+            if player in self.players:
+                raise UsernameAlreadyExistsError()
             if self.state != GameState.SET_UP:
                 raise GameStateError(self.state)
             self.players[player] = {}
