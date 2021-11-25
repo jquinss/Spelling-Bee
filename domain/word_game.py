@@ -369,6 +369,10 @@ class MinPlayersRequiredError(Exception):
     pass
 
 
+class UsernameAlreadyExistsError(Exception):
+    pass
+
+
 class GameState(Enum):
     SET_UP = 1
     START = 2
