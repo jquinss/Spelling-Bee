@@ -48,7 +48,6 @@ class WordGameServer(WordGameServicer):
             game.start_game()
         except MinPlayersRequiredError:
             response_code = 1
-
         return InitGameResponse(responseCode=response_code)
 
     def JoinGame(self, request, context):
@@ -67,12 +66,11 @@ class WordGameServer(WordGameServicer):
             response_code = 3
         except GameStateError:
             response_code = 4
-
         return JoinGameResponse(responseCode=response_code, gameId=game_id)
 
     def GetPangram(self, request, context):
         game = self.registry.get_game(request.gameId)
-        return GetPangramResponse(game.get_pangram_letters())
+        return GetPangramResponse(letters=game.get_pangram_letters())
 
     def SubmitWord(self, request, context):
         game = self.registry.get_game(request.gameId)
@@ -81,7 +79,7 @@ class WordGameServer(WordGameServicer):
 
     def QueryGameStatus(self, request, context):
         game = self.registry.get_game(request.gameId)
-        return GameStatusResponse(game.get_game_status())
+        return GameStatusResponse(statusInfo=game.get_game_status())
 
     def _generate_join_code(self, size=6, chars=string.ascii_uppercase + string.digits):
         return ''.join(random.choice(chars) for _ in range(size))
