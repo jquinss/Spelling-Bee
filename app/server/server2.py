@@ -74,7 +74,7 @@ class WordGameServer(WordGameServicer):
 
     def SubmitWord(self, request, context):
         game = self.registry.get_game(request.gameId)
-        score, total, message = game.check_word(request.word, request.player)
+        score, total, message = game.check_word(request.word, request.username)
         return WordSubmissionResponse(score=score, total=total, message=message)
 
     def QueryGameStatus(self, request, context):
