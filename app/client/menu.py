@@ -72,7 +72,7 @@ class CreateGameMenu(Menu):
         game_id = self.game_stub.CreateGame(word_game2_pb2.CreateGameRequest(username=username,
                                             gameType=self.game_type, gameMode=game_mode)).gameId
         self.game_stub.InitGame(word_game2_pb2.InitGameRequest(gameId=game_id))
-        letters = self.game_stub.GetPangramRequest(gameId=game_id)
+        letters = self.game_stub.GetPangram(word_game2_pb2.GetPangramRequest(gameId=game_id))
         self.game_loop = True
         while self.game_loop:
             print(letters)
