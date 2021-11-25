@@ -81,7 +81,7 @@ class CreateGameMenu(Menu):
                                                                 username=username, word=word.lower()))
             print(response.message, "- Score:", response.score, "Total:", response.total)
 
-    def create_multiplayer_game_vs(self):
+    def create_multiplayer_coop_game(self):
         print("Creating multiplayer game")
 
     def _create_username(self):
