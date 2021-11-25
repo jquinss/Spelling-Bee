@@ -2,8 +2,8 @@ from abc import ABC
 
 import grpc
 
-import word_game_pb2
-import word_game_pb2_grpc
+import word_game2_pb2
+import word_game2_pb2_grpc
 
 
 class Menu(ABC):
@@ -40,7 +40,7 @@ class GameMainMenu(Menu):
         self.menu_options = {"1": self.create_new_game, "2": self.join_existing_game, "3": self.exit_menu}
         super().__init__(self.menu_text, self.menu_options)
         self.channel = grpc.insecure_channel('127.0.0.1:50055')
-        self.stub = word_game_pb2_grpc.WordGameStub(self.channel)
+        self.stub = word_game2_pb2_grpc.WordGameStub(self.channel)
 
 
     def create_new_game(self):
@@ -58,24 +58,42 @@ class CreateGameMenu(Menu):
         self.game_loop = False
         self.game_stub = game_stub
         self.menu_text = "1. Singleplayer game\n" \
-                            "2. Multiplayer game (player vs player)\n" \
-                            "3. Back to main menu"
-        self.menu_options = {"1": self.create_singleplayer_game, "2": self.create_multiplayer_game_vs, "3": self.exit_menu}
+                         "2. Multiplayer game (2 player co-operative)\n" \
+                         "3. Back to main menu"
+        self.menu_options = {"1": self.create_singleplayer_game, "2": self.create_multiplayer_game_vs,
+                             "3": self.exit_menu}
         super().__init__(self.menu_text, self.menu_options)
 
     def create_singleplayer_game(self):
+        game_mode = "Single"
         print("Creating singleplayer game")
-        game_id = self.game_stub.CreateGame(word_game_pb2.GameRequest(gameType=self.game_type)).gameId
-        letters = self.game_stub.InitGameRequest(word_game_pb2.InitRequest(gameId=game_id)).letters
+        print("Requesting username")
+        username = self._create_username()
+        game_id = self.game_stub.CreateGame(word_game2_pb2.CreateGameRequest(username=username,
+                                            gameType=self.game_type, gameMode=game_mode)).gameId
+        self.game_stub.InitGameRequest(word_game2_pb2.InitGameRequest(gameId=game_id))
+        letters = self.game_stub.GetPangramRequest(gameId=game_id)
         self.game_loop = True
         while self.game_loop:
             print(letters)
             word = input("Enter a word: ")
-            response = self.game_stub.SubmitWord(word_game_pb2.WordSubmissionRequest(gameId=game_id, word=word.lower()))
+            response = self.game_stub.SubmitWord(word_game2_pb2.WordSubmissionRequest(gameId=game_id,
+                                                                username=username, word=word.lower()))
             print(response.message, "- Score:", response.score, "Total:", response.total)
 
     def create_multiplayer_game_vs(self):
         print("Creating multiplayer game")
+
+    def _create_username(self):
+        valid_user = False
+        username = ""
+        while not valid_user:
+            username = input("Create a username: ")
+            if username == "":
+                print("Username cannot be empty")
+            else:
+                valid_user = True
+        return username
 
 
 menu = GameMainMenu()
