@@ -225,8 +225,8 @@ class SpellingBeeGame2(WordGameTemplate2, GameManager):
         if self.state != GameState.SET_UP:
             raise GameStateError(self.state)
         for player in self.players:
-            player["total"] = 0
-            player["words"] = []
+            self.players[player]["total"] = 0
+            self.players[player]["words"] = []
         self.state = GameState.START
 
     def start_game(self):
@@ -245,9 +245,9 @@ class SpellingBeeGame2(WordGameTemplate2, GameManager):
         status = "Game Status:\n"
         for player in self.players:
             status += "Player: " + player + "\n"
-            status += "Total: " + str(player["Total"]) + "\n"
+            status += "Total: " + str(self.players[player]["Total"]) + "\n"
             status += "Words:\n"
-            for word in player["words"]:
+            for word in self.players[player]["words"]:
                 score = self.words_found_list[word]
                 status += word + ": " + str(score) + "\n"
         return status
@@ -372,7 +372,7 @@ class SpellingBeeGameFactory(WordGameFactory2):
 
     def create_game(self, game_mode, **kwargs):
         if game_mode == 'Single':
-            return SpellingBeeGame(word_lookup_service=self.word_lookup_service)
+            return SpellingBeeGame2(word_lookup_service=self.word_lookup_service)
         elif game_mode == 'MultiCoop':
             return MultiCoopSpellingBeeGame(word_lookup_service=self.word_lookup_service, **kwargs)
         else:
