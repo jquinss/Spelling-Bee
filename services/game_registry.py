@@ -34,7 +34,7 @@ class GameRegistry:
         return game_id
 
     def get_game(self, game_id):
-        return self.games[uuid.UUID(bytes=game_id)]
+        return self.games[game_id]
 
     def _generate_game_id(self, size=9, chars=string.ascii_uppercase + string.digits):
         return ''.join(random.choice(chars) for _ in range(size))
