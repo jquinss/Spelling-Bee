@@ -19,7 +19,7 @@ DESCRIPTOR = _descriptor.FileDescriptor(
   syntax='proto3',
   serialized_options=None,
   create_key=_descriptor._internal_create_key,
-  serialized_pb=b'\n\x10word_game2.proto\x12\x03\x61pp\"I\n\x11\x43reateGameRequest\x12\x10\n\x08username\x18\x01 \x01(\t\x12\x10\n\x08gameType\x18\x02 \x01(\t\x12\x10\n\x08gameMode\x18\x03 \x01(\t\"6\n\x12\x43reateGameResponse\x12\x0e\n\x06gameId\x18\x01 \x01(\x0c\x12\x10\n\x08joinCode\x18\x02 \x01(\t\"5\n\x0fJoinGameRequest\x12\x10\n\x08username\x18\x01 \x01(\t\x12\x10\n\x08joinCode\x18\x02 \x01(\t\"8\n\x10JoinGameResponse\x12\x14\n\x0cresponseCode\x18\x01 \x01(\x05\x12\x0e\n\x06gameId\x18\x02 \x01(\x0c\"!\n\x0fInitGameRequest\x12\x0e\n\x06gameId\x18\x01 \x01(\x0c\"(\n\x10InitGameResponse\x12\x14\n\x0cresponseCode\x18\x01 \x01(\x05\"#\n\x11GetPangramRequest\x12\x0e\n\x06gameId\x18\x01 \x01(\x0c\"%\n\x12GetPangramResponse\x12\x0f\n\x07letters\x18\x01 \x01(\t\"G\n\x15WordSubmissionRequest\x12\x0e\n\x06gameId\x18\x01 \x01(\x0c\x12\x10\n\x08username\x18\x02 \x01(\t\x12\x0c\n\x04word\x18\x03 \x01(\t\"G\n\x16WordSubmissionResponse\x12\r\n\x05score\x18\x01 \x01(\x05\x12\r\n\x05total\x18\x02 \x01(\x05\x12\x0f\n\x07message\x18\x03 \x01(\t\"#\n\x11GameStatusRequest\x12\x0e\n\x06gameId\x18\x01 \x01(\x0c\"(\n\x12GameStatusResponse\x12\x12\n\nstatusInfo\x18\x01 \x01(\t\" \n\x0e\x45ndGameRequest\x12\x0e\n\x06gameId\x18\x01 \x01(\x0c\"\'\n\x0f\x45ndGameResponse\x12\x14\n\x0cresponseCode\x18\x01 \x01(\x05\x32\xc9\x03\n\x08WordGame\x12?\n\nCreateGame\x12\x16.app.CreateGameRequest\x1a\x17.app.CreateGameResponse\"\x00\x12\x39\n\x08JoinGame\x12\x14.app.JoinGameRequest\x1a\x15.app.JoinGameResponse\"\x00\x12\x39\n\x08InitGame\x12\x14.app.InitGameRequest\x1a\x15.app.InitGameResponse\"\x00\x12?\n\nGetPangram\x12\x16.app.GetPangramRequest\x1a\x17.app.GetPangramResponse\"\x00\x12G\n\nSubmitWord\x12\x1a.app.WordSubmissionRequest\x1a\x1b.app.WordSubmissionResponse\"\x00\x12\x44\n\x0fQueryGameStatus\x12\x16.app.GameStatusRequest\x1a\x17.app.GameStatusResponse\"\x00\x12\x36\n\x07\x45ndGame\x12\x13.app.EndGameRequest\x1a\x14.app.EndGameResponse\"\x00\x62\x06proto3'
+  serialized_pb=b'\n\x10word_game2.proto\x12\x03\x61pp\"I\n\x11\x43reateGameRequest\x12\x10\n\x08username\x18\x01 \x01(\t\x12\x10\n\x08gameType\x18\x02 \x01(\t\x12\x10\n\x08gameMode\x18\x03 \x01(\t\"6\n\x12\x43reateGameResponse\x12\x0e\n\x06gameId\x18\x01 \x01(\t\x12\x10\n\x08joinCode\x18\x02 \x01(\t\"5\n\x0fJoinGameRequest\x12\x10\n\x08username\x18\x01 \x01(\t\x12\x10\n\x08joinCode\x18\x02 \x01(\t\"8\n\x10JoinGameResponse\x12\x14\n\x0cresponseCode\x18\x01 \x01(\x05\x12\x0e\n\x06gameId\x18\x02 \x01(\t\"!\n\x0fInitGameRequest\x12\x0e\n\x06gameId\x18\x01 \x01(\t\"(\n\x10InitGameResponse\x12\x14\n\x0cresponseCode\x18\x01 \x01(\x05\"#\n\x11GetPangramRequest\x12\x0e\n\x06gameId\x18\x01 \x01(\t\"%\n\x12GetPangramResponse\x12\x0f\n\x07letters\x18\x01 \x01(\t\"G\n\x15WordSubmissionRequest\x12\x0e\n\x06gameId\x18\x01 \x01(\t\x12\x10\n\x08username\x18\x02 \x01(\t\x12\x0c\n\x04word\x18\x03 \x01(\t\"G\n\x16WordSubmissionResponse\x12\r\n\x05score\x18\x01 \x01(\x05\x12\r\n\x05total\x18\x02 \x01(\x05\x12\x0f\n\x07message\x18\x03 \x01(\t\"#\n\x11GameStatusRequest\x12\x0e\n\x06gameId\x18\x01 \x01(\t\"(\n\x12GameStatusResponse\x12\x12\n\nstatusInfo\x18\x01 \x01(\t\" \n\x0e\x45ndGameRequest\x12\x0e\n\x06gameId\x18\x01 \x01(\t\"\'\n\x0f\x45ndGameResponse\x12\x14\n\x0cresponseCode\x18\x01 \x01(\x05\x32\xc9\x03\n\x08WordGame\x12?\n\nCreateGame\x12\x16.app.CreateGameRequest\x1a\x17.app.CreateGameResponse\"\x00\x12\x39\n\x08JoinGame\x12\x14.app.JoinGameRequest\x1a\x15.app.JoinGameResponse\"\x00\x12\x39\n\x08InitGame\x12\x14.app.InitGameRequest\x1a\x15.app.InitGameResponse\"\x00\x12?\n\nGetPangram\x12\x16.app.GetPangramRequest\x1a\x17.app.GetPangramResponse\"\x00\x12G\n\nSubmitWord\x12\x1a.app.WordSubmissionRequest\x1a\x1b.app.WordSubmissionResponse\"\x00\x12\x44\n\x0fQueryGameStatus\x12\x16.app.GameStatusRequest\x1a\x17.app.GameStatusResponse\"\x00\x12\x36\n\x07\x45ndGame\x12\x13.app.EndGameRequest\x1a\x14.app.EndGameResponse\"\x00\x62\x06proto3'
 )
 
 
@@ -81,8 +81,8 @@ _CREATEGAMERESPONSE = _descriptor.Descriptor(
   fields=[
     _descriptor.FieldDescriptor(
       name='gameId', full_name='app.CreateGameResponse.gameId', index=0,
-      number=1, type=12, cpp_type=9, label=1,
-      has_default_value=False, default_value=b"",
+      number=1, type=9, cpp_type=9, label=1,
+      has_default_value=False, default_value=b"".decode('utf-8'),
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
@@ -166,8 +166,8 @@ _JOINGAMERESPONSE = _descriptor.Descriptor(
       serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
     _descriptor.FieldDescriptor(
       name='gameId', full_name='app.JoinGameResponse.gameId', index=1,
-      number=2, type=12, cpp_type=9, label=1,
-      has_default_value=False, default_value=b"",
+      number=2, type=9, cpp_type=9, label=1,
+      has_default_value=False, default_value=b"".decode('utf-8'),
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
@@ -198,8 +198,8 @@ _INITGAMEREQUEST = _descriptor.Descriptor(
   fields=[
     _descriptor.FieldDescriptor(
       name='gameId', full_name='app.InitGameRequest.gameId', index=0,
-      number=1, type=12, cpp_type=9, label=1,
-      has_default_value=False, default_value=b"",
+      number=1, type=9, cpp_type=9, label=1,
+      has_default_value=False, default_value=b"".decode('utf-8'),
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
@@ -262,8 +262,8 @@ _GETPANGRAMREQUEST = _descriptor.Descriptor(
   fields=[
     _descriptor.FieldDescriptor(
       name='gameId', full_name='app.GetPangramRequest.gameId', index=0,
-      number=1, type=12, cpp_type=9, label=1,
-      has_default_value=False, default_value=b"",
+      number=1, type=9, cpp_type=9, label=1,
+      has_default_value=False, default_value=b"".decode('utf-8'),
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
@@ -326,8 +326,8 @@ _WORDSUBMISSIONREQUEST = _descriptor.Descriptor(
   fields=[
     _descriptor.FieldDescriptor(
       name='gameId', full_name='app.WordSubmissionRequest.gameId', index=0,
-      number=1, type=12, cpp_type=9, label=1,
-      has_default_value=False, default_value=b"",
+      number=1, type=9, cpp_type=9, label=1,
+      has_default_value=False, default_value=b"".decode('utf-8'),
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
@@ -418,8 +418,8 @@ _GAMESTATUSREQUEST = _descriptor.Descriptor(
   fields=[
     _descriptor.FieldDescriptor(
       name='gameId', full_name='app.GameStatusRequest.gameId', index=0,
-      number=1, type=12, cpp_type=9, label=1,
-      has_default_value=False, default_value=b"",
+      number=1, type=9, cpp_type=9, label=1,
+      has_default_value=False, default_value=b"".decode('utf-8'),
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
@@ -482,8 +482,8 @@ _ENDGAMEREQUEST = _descriptor.Descriptor(
   fields=[
     _descriptor.FieldDescriptor(
       name='gameId', full_name='app.EndGameRequest.gameId', index=0,
-      number=1, type=12, cpp_type=9, label=1,
-      has_default_value=False, default_value=b"",
+      number=1, type=9, cpp_type=9, label=1,
+      has_default_value=False, default_value=b"".decode('utf-8'),
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
