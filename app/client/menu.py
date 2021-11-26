@@ -60,7 +60,7 @@ class CreateGameMenu(Menu):
         self.menu_text = "1. Singleplayer game\n" \
                          "2. Multiplayer game (2 player co-operative)\n" \
                          "3. Back to main menu"
-        self.menu_options = {"1": self.create_singleplayer_game, "2": self.create_multiplayer_game_vs,
+        self.menu_options = {"1": self.create_singleplayer_game, "2": self.create_multiplayer_coop_game,
                              "3": self.exit_menu}
         super().__init__(self.menu_text, self.menu_options)
 
@@ -76,10 +76,14 @@ class CreateGameMenu(Menu):
         self.game_loop = True
         while self.game_loop:
             print(letters)
-            word = input("Enter a word: ")
-            response = self.game_stub.SubmitWord(word_game2_pb2.WordSubmissionRequest(gameId=game_id,
+            word = input("Enter a word (or command - enter \\h for a list of available commands): ")
+            if word == "\\s":
+                status = self.game_stub.QueryGameStatus(word_game2_pb2.GameStatusRequest(gameId=game_id))
+                print(status)
+            else:
+                response = self.game_stub.SubmitWord(word_game2_pb2.WordSubmissionRequest(gameId=game_id,
                                                                 username=username, word=word.lower()))
-            print(response.message, "- Score:", response.score, "Total:", response.total)
+                print(response.message, "- Score:", response.score, "Total:", response.total)
 
     def create_multiplayer_coop_game(self):
         print("Creating multiplayer game")
