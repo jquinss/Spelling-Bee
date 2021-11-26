@@ -38,7 +38,7 @@ class WordGameServer(WordGameServicer):
             while join_code in self.join_codes:
                 join_code = self._generate_join_code()
             self.join_codes[join_code] = game_id
-        return CreateGameResponse(gameId=game_id.bytes, joinCode=join_code)
+        return CreateGameResponse(gameId=game_id, joinCode=join_code)
 
     def InitGame(self, request, context):
         game = self.registry.get_game(request.gameId)
@@ -51,7 +51,7 @@ class WordGameServer(WordGameServicer):
         return InitGameResponse(responseCode=response_code)
 
     def JoinGame(self, request, context):
-        join_code = request.join_code
+        join_code = request.joinCode
         username = request.username
         response_code = 0
         if join_code not in self.join_codes:
