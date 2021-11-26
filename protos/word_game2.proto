@@ -19,7 +19,7 @@ message CreateGameRequest {
 }
 
 message CreateGameResponse {
-    bytes gameId = 1;
+    string gameId = 1;
     string joinCode = 2;
 }
 
@@ -30,11 +30,11 @@ message JoinGameRequest {
 
 message JoinGameResponse {
     int32 responseCode = 1;
-    bytes gameId = 2;
+    string gameId = 2;
 }
 
 message InitGameRequest {
-    bytes gameId = 1;
+    string gameId = 1;
 }
 
 message InitGameResponse {
@@ -42,7 +42,7 @@ message InitGameResponse {
 }
 
 message GetPangramRequest {
-    bytes gameId = 1;
+    string gameId = 1;
 }
 
 message GetPangramResponse {
@@ -50,7 +50,7 @@ message GetPangramResponse {
 }
 
 message WordSubmissionRequest {
-    bytes gameId = 1;
+    string gameId = 1;
     string username = 2;
     string word = 3;
 }
@@ -62,7 +62,7 @@ message WordSubmissionResponse {
 }
 
 message GameStatusRequest {
-    bytes gameId = 1;
+    string gameId = 1;
 }
 
 message GameStatusResponse {
@@ -70,7 +70,7 @@ message GameStatusResponse {
 }
 
 message EndGameRequest {
-    bytes gameId = 1;
+    string gameId = 1;
 }
 
 message EndGameResponse {
