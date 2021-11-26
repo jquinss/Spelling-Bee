@@ -1,5 +1,7 @@
 import uuid
 import threading
+import string
+import random
 
 
 class GameRegistry:
@@ -24,10 +26,15 @@ class GameRegistry:
 
     def add_game(self, game):
         self.lock.acquire()
-        game_id = uuid.uuid4()
+        game_id = self._generate_game_id()
+        while game_id in self.games:
+            game_id = self._generate_game_id()
         self.games[game_id] = game
         self.lock.release()
         return game_id
 
     def get_game(self, game_id):
         return self.games[uuid.UUID(bytes=game_id)]
+
+    def _generate_game_id(self, size=9, chars=string.ascii_uppercase + string.digits):
+        return ''.join(random.choice(chars) for _ in range(size))
