@@ -50,7 +50,43 @@ class GameMainMenu(Menu):
         submenu.run()
 
     def join_existing_game(self):
-        print("Joining existing game")
+        username = self._create_username()
+        join_code = input("Enter the join code: ")
+
+        join_game_response = self.stub.JoinGame(word_game2_pb2.JoinGameRequest(username=username, joinCode=join_code))
+
+        join_response_code = join_game_response.responseCode
+
+        if join_response_code == 0:
+            game_id = join_game_response.gameId
+            print("joining game. Waiting for the main player to initiate game")
+            time.sleep(5)
+            letters = self.stub.GetPangram(word_game2_pb2.GetPangramRequest(gameId=game_id))
+            self.game_loop = True
+            while self.game_loop:
+                print(letters)
+                word = input("Enter a word (or command - enter \\h for a list of available commands): ")
+                if word == "\\s":
+                    status = self.stub.QueryGameStatus(word_game2_pb2.GameStatusRequest(gameId=game_id))
+                    print(status)
+                else:
+                    print("submitted word " + word)
+                    response = self.stub.SubmitWord(word_game2_pb2.WordSubmissionRequest(gameId=game_id,
+                                                                                              username=username,
+                                                                                              word=word.lower()))
+                    print(response.message, "- Score:", response.score, "Total:", response.total)
+
+
+    def _create_username(self):
+        valid_user = False
+        username = ""
+        while not valid_user:
+            username = input("Create a username: ")
+            if username == "":
+                print("Username cannot be empty")
+            else:
+                valid_user = True
+        return username
 
 
 class CreateGameMenu(Menu):
@@ -112,6 +148,7 @@ class CreateGameMenu(Menu):
                 status = self.game_stub.QueryGameStatus(word_game2_pb2.GameStatusRequest(gameId=game_id))
                 print(status)
             else:
+                print("Submitted word " + word)
                 response = self.game_stub.SubmitWord(word_game2_pb2.WordSubmissionRequest(gameId=game_id,
                                                                                           username=username,
                                                                                           word=word.lower()))
