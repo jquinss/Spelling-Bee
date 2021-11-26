@@ -207,10 +207,10 @@ class SpellingBeeGame2(WordGameTemplate2, GameManager):
         self.max_players = max_players
         self.min_players = min_players
         self.state = GameState.SET_UP
-        self.lock = Lock()
+        self.lock2 = Lock()
 
     def add_player(self, player):
-        with self.lock:
+        with self.lock2:
             if len(self.players) >= self.max_players:
                 raise MaxPlayersLimitReachedError()
             if player in self.players:
@@ -258,7 +258,7 @@ class SpellingBeeGame2(WordGameTemplate2, GameManager):
         return letters
 
     def check_word(self, word, player):
-        with self.lock:
+        with self.lock2:
             if self.state != GameState.START:
                 raise GameStateError(self.state)
             return super().check_word(word, player)
@@ -323,9 +323,10 @@ class MultiCoopSpellingBeeGame(SpellingBeeGame2):
     def __init__(self, word_lookup_service=None, max_players=2):
         super().__init__(word_lookup_service=word_lookup_service, min_players=2, max_players=max_players)
         self.total_score = 0
+        self.lock1 = Lock()
 
     def check_word(self, word, player):
-        with self.lock:
+        with self.lock1:
             score, player_total, message = super().check_word(word, player)
             self.total_score += score
             return score, player_total, message
