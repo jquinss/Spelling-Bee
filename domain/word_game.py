@@ -245,7 +245,7 @@ class SpellingBeeGame2(WordGameTemplate2, GameManager):
         status = "Game Status:\n"
         for player in self.players:
             status += "Player: " + player + "\n"
-            status += "Total: " + str(self.players[player]["Total"]) + "\n"
+            status += "Total: " + str(self.players[player]["total"]) + "\n"
             status += "Words:\n"
             for word in self.players[player]["words"]:
                 score = self.words_found_list[word]
