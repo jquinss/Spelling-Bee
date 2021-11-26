@@ -5,6 +5,7 @@ import grpc
 import word_game2_pb2
 import word_game2_pb2_grpc
 
+import time
 
 class Menu(ABC):
     def __init__(self, menu_text, menu_options):
@@ -86,7 +87,35 @@ class CreateGameMenu(Menu):
                 print(response.message, "- Score:", response.score, "Total:", response.total)
 
     def create_multiplayer_coop_game(self):
-        print("Creating multiplayer game")
+        game_mode = "MultiCoop"
+        print("Creating multiplayer cooperative game")
+        print("Requesting username")
+        username = self._create_username()
+        create_game_response = self.game_stub.CreateGame(word_game2_pb2.CreateGameRequest(username=username,
+                                                                             gameType=self.game_type,
+                                                                             gameMode=game_mode))
+        game_id = create_game_response.gameId
+        join_code = create_game_response.joinCode
+        response_code = self.game_stub.InitGame(word_game2_pb2.InitGameRequest(gameId=game_id)).responseCode
+        while response_code == 1:
+            print(f"Waiting for another player to join - join code: {join_code}")
+            time.sleep(5)
+            response_code = self.game_stub.InitGame(word_game2_pb2.InitGameRequest(gameId=game_id)).responseCode
+        print("Starting game")
+
+        letters = self.game_stub.GetPangram(word_game2_pb2.GetPangramRequest(gameId=game_id))
+        self.game_loop = True
+        while self.game_loop:
+            print(letters)
+            word = input("Enter a word (or command - enter \\h for a list of available commands): ")
+            if word == "\\s":
+                status = self.game_stub.QueryGameStatus(word_game2_pb2.GameStatusRequest(gameId=game_id))
+                print(status)
+            else:
+                response = self.game_stub.SubmitWord(word_game2_pb2.WordSubmissionRequest(gameId=game_id,
+                                                                                          username=username,
+                                                                                          word=word.lower()))
+                print(response.message, "- Score:", response.score, "Total:", response.total)
 
     def _create_username(self):
         valid_user = False
