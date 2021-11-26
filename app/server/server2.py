@@ -33,9 +33,9 @@ class WordGameServer(WordGameServicer):
         game = factory.create_game(request.gameMode)
         game.add_player(request.username)
         game_id = self.registry.add_game(game)
-        join_code = ""
+        join_code = self._generate_join_code()
         if isinstance(game, MultiCoopSpellingBeeGame):
-            while join_code not in self.join_codes:
+            while join_code in self.join_codes:
                 join_code = self._generate_join_code()
             self.join_codes[join_code] = game_id
         return CreateGameResponse(gameId=game_id.bytes, joinCode=join_code)
