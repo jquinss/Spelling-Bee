@@ -2,7 +2,7 @@ import logging
 import string
 import random
 from concurrent import futures
-from services.stats_queue import StatsQueue
+from services.stats_queue import MessageQueueSender
 
 import grpc
 
@@ -88,7 +88,7 @@ class WordGameServer(WordGameServicer):
 
 def serve():
     server = grpc.server(futures.ThreadPoolExecutor(max_workers=10))
-    add_WordGameServicer_to_server(WordGameServer(StatsQueue()), server)
+    add_WordGameServicer_to_server(WordGameServer(MessageQueueSender("SpellingBee")), server)
     server.add_insecure_port('[::]:50055')
     server.start()
     server.wait_for_termination()
