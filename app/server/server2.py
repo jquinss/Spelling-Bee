@@ -2,6 +2,7 @@ import logging
 import string
 import random
 from concurrent import futures
+from services.stats_queue import StatsQueue
 
 import grpc
 
@@ -19,13 +20,14 @@ class WordGameServer(WordGameServicer):
     dictionaries = {"word_dict": "../../data/words_dictionary.json",
                     "pangram_dict": "../../data/pangrams.json"}
 
-    def __init__(self):
+    def __init__(self, stats_queue=None):
         self.lookup_service_factory = LookupServiceFactory()
         self.lookup_service = self.lookup_service_factory.create_lookup_service("JSON",
                                                                                 source_files_dict=self.dictionaries)
         self.game_factory_builder = WordGameFactoryBuilder()
         self.game_factory_builder.register_word_game_factory(SpellingBeeGameFactory(self.lookup_service), "SpellingBee")
         self.registry = GameRegistry.get_instance()
+        self.stats_queue = stats_queue
         self.join_codes = {}
 
     def CreateGame(self, request, context):
@@ -86,7 +88,7 @@ class WordGameServer(WordGameServicer):
 
 def serve():
     server = grpc.server(futures.ThreadPoolExecutor(max_workers=10))
-    add_WordGameServicer_to_server(WordGameServer(), server)
+    add_WordGameServicer_to_server(WordGameServer(StatsQueue()), server)
     server.add_insecure_port('[::]:50055')
     server.start()
     server.wait_for_termination()
