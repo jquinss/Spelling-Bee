@@ -241,6 +241,7 @@ class SpellingBeeGame2(WordGameTemplate2, GameManager):
     def get_pangram_letters(self):
         return self.format_pangram_output(self.pangram_letters)
 
+    """
     def get_game_status(self):
         status = "Game Status:\n"
         for player in self.players:
@@ -250,6 +251,13 @@ class SpellingBeeGame2(WordGameTemplate2, GameManager):
             for word in self.players[player]["words"]:
                 score = self.words_found_list[word]
                 status += word + ": " + str(score) + "\n"
+        return status
+    """
+
+    def get_game_status(self):
+        status = {"game_state": self.state, "pangram": self.pangram_letters, "players": self.players,
+                  "words_found": self.words_found_list}
+
         return status
 
     def randomize_word(self, word):
@@ -333,9 +341,13 @@ class MultiCoopSpellingBeeGame(SpellingBeeGame2):
 
     def get_game_status(self):
         status = super().get_game_status()
+        status["total_score"] = self.total_score
+"""
+    def get_game_status(self):
+        status = super().get_game_status()
         status += "Total Score: " + str(self.total_score)
         return status
-
+"""
 
 class WordGameFactory:
     def create_word_game(self, game_type, word_lookup_service):
