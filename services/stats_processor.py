@@ -27,9 +27,9 @@ class MessageQueueSender:
 
 
 class GameStatsQueueProcessor(Observer):
-    def __init__(self, stats_queue):
-        self.stats_queue = stats_queue
+    def __init__(self, queue_sender):
+        self.queue_sender = queue_sender
 
     def update(self, server, game_id):
         game_status = server.get_game_status(game_id)
-        self.stats_queue.send(game_status)
+        self.queue_sender.send(game_status)
