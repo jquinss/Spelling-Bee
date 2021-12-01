@@ -2,7 +2,7 @@ import logging
 import string
 import random
 from concurrent import futures
-from services.stats_processor import MessageQueue, GameStatsQueueProcessor
+from services.stats_processor import MessageQueueSender, GameStatsQueueProcessor
 from abc import ABC, abstractmethod
 
 import grpc
@@ -119,7 +119,7 @@ class WordGameServer(WordGameServicer, GameServerObservable):
 
 def serve():
     server = grpc.server(futures.ThreadPoolExecutor(max_workers=10))
-    stats_processor = GameStatsQueueProcessor(MessageQueue("SpellingBee"))
+    stats_processor = GameStatsQueueProcessor(MessageQueueSender("SpellingBee"))
     word_game_server = WordGameServer()
     word_game_server.add_observer(stats_processor)
     add_WordGameServicer_to_server(word_game_server, server)
