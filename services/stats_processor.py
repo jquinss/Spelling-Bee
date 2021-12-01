@@ -8,7 +8,7 @@ class Observer(ABC):
         pass
 
 
-class MessageQueue:
+class MessageQueueSender:
     def __init__(self, queue_name, hostname="localhost"):
         self.hostname = hostname
         self.queue_name = queue_name
