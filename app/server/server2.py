@@ -2,7 +2,8 @@ import logging
 import string
 import random
 from concurrent import futures
-from services.stats_queue import MessageQueueSender
+from services.stats_processor import MessageQueue, GameStatsQueueProcessor
+from abc import ABC, abstractmethod
 
 import grpc
 
@@ -15,19 +16,40 @@ from services.game_registry import GameRegistry
 from services.lookup_service import LookupServiceFactory
 
 
-class WordGameServer(WordGameServicer):
+class Observable(ABC):
+    def __init__(self):
+        self.observers = []
+
+    def add_observer(self, observer):
+        self.observers.append(observer)
+
+    def remove_observer(self, observer):
+        self.observers.remove(observer)
+
+    @abstractmethod
+    def notify_observers(self, arg):
+        pass
+
+
+class GameServerObservable(Observable):
+    def notify_observers(self, game_id):
+        for obs in self.observers:
+            obs.update(self, game_id)
+
+
+class WordGameServer(WordGameServicer, GameServerObservable):
 
     dictionaries = {"word_dict": "../../data/words_dictionary.json",
                     "pangram_dict": "../../data/pangrams.json"}
 
-    def __init__(self, stats_queue=None):
+    def __init__(self):
+        super().__init__()
         self.lookup_service_factory = LookupServiceFactory()
         self.lookup_service = self.lookup_service_factory.create_lookup_service("JSON",
                                                                                 source_files_dict=self.dictionaries)
         self.game_factory_builder = WordGameFactoryBuilder()
         self.game_factory_builder.register_word_game_factory(SpellingBeeGameFactory(self.lookup_service), "SpellingBee")
         self.registry = GameRegistry.get_instance()
-        self.stats_queue = stats_queue
         self.join_codes = {}
 
     def CreateGame(self, request, context):
@@ -75,20 +97,32 @@ class WordGameServer(WordGameServicer):
         return GetPangramResponse(letters=game.get_pangram_letters())
 
     def SubmitWord(self, request, context):
-        game = self.registry.get_game(request.gameId)
+        game_id = request.gameId
+        game = self.registry.get_game(game_id)
         score, total, message = game.check_word(request.word, request.username)
+        if score != 0:
+            self.notify_observers(game_id)
         return WordSubmissionResponse(score=score, total=total, message=message)
 
     def QueryGameStatus(self, request, context):
-        game = self.registry.get_game(request.gameId)
-        return GameStatusResponse(statusInfo=game.get_game_status())
+        game_id = request.game_id
+        game_status = self.get_game_status(game_id)
+        return GameStatusResponse(statusInfo=game_status)
+
+    def get_game_status(self, game_id):
+        game = self.registry.get_game(game_id)
+        return game.get_game_status()
 
     def _generate_join_code(self, size=6, chars=string.ascii_uppercase + string.digits):
         return ''.join(random.choice(chars) for _ in range(size))
 
+
 def serve():
     server = grpc.server(futures.ThreadPoolExecutor(max_workers=10))
-    add_WordGameServicer_to_server(WordGameServer(MessageQueueSender("SpellingBee")), server)
+    stats_processor = GameStatsQueueProcessor(MessageQueue("SpellingBee"))
+    word_game_server = WordGameServer()
+    word_game_server.add_observer(stats_processor)
+    add_WordGameServicer_to_server(word_game_server, server)
     server.add_insecure_port('[::]:50055')
     server.start()
     server.wait_for_termination()
@@ -97,4 +131,5 @@ def serve():
 if __name__ == '__main__':
     logging.basicConfig()
     serve()
+
 
