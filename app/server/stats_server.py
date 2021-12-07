@@ -20,16 +20,11 @@ class MessageQueueConsumer(Thread):
 
 class StatsServer:
     def __init__(self, hostname, port):
+        self.hostname = hostname
+        self.port = port
         self.stats_list = []
         self.clients = []
         self.msg_consumer = MessageQueueConsumer("test", callback=self.consume_stats)
-        self.server_socket = self.init_socket(hostname, port)
-
-    def init_socket(self, hostname, port):
-        sck = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-        sck.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
-        sck.bind((hostname, port))
-        return sck
 
     def consume_stats(self, ch, method, properties, body):
         stats = json.loads(body)
@@ -46,11 +41,14 @@ class StatsServer:
 
     def run(self):
         self.msg_consumer.start()
-        while True:
-            self.server_socket.listen()
-            client_conn, address = self.server_socket.accept()
-            self.clients.append(client_conn)
-            self.send_all_stats(client_conn)
+        with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as sock:
+            sock.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
+            sock.bind((self.hostname, self.port))
+            while True:
+                sock.listen()
+                client_conn, address = sock.accept()
+                self.clients.append(client_conn)
+                self.send_all_stats(client_conn)
 
 
 StatsServer("localhost", 65512).run()
