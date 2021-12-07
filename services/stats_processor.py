@@ -1,5 +1,6 @@
 from abc import ABC, abstractmethod
 import pika
+import json
 
 
 class Observer(ABC):
@@ -34,4 +35,4 @@ class GameStatsQueueProcessor(Observer):
 
     def update(self, server, game_id):
         game_status = server.get_game_status(game_id)
-        self.queue_sender.send(game_status)
+        self.queue_sender.send(json.dumps(game_status))
