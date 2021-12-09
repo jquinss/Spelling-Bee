@@ -255,7 +255,7 @@ class SpellingBeeGame2(WordGameTemplate2, GameManager):
     """
 
     def get_game_status(self):
-        status = {"game_state": self.state, "pangram": self.pangram_letters, "players": self.players,
+        status = {"pangram": self.pangram_letters, "players": self.players,
                   "words_found": self.words_found_list}
 
         return status
