@@ -33,11 +33,11 @@ class StatsServer:
 
     def send_all_stats(self, client):
         for stats in self.stats_list:
-            client.sendall(json.dumps(stats))
+            client.sendall(json.dumps(stats).encode())
 
     def send_stats(self, stats):
         for client in self.clients:
-            client.sendall(json.dumps(stats))
+            client.sendall(json.dumps(stats).encode())
 
     def run(self):
         self.msg_consumer.start()
