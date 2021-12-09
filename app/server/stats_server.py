@@ -24,7 +24,7 @@ class StatsServer:
         self.port = port
         self.stats_list = []
         self.clients = []
-        self.msg_consumer = MessageQueueConsumer("test", callback=self.consume_stats)
+        self.msg_consumer = MessageQueueConsumer("SpellingBee", callback=self.consume_stats)
 
     def consume_stats(self, ch, method, properties, body):
         stats = json.loads(body)
