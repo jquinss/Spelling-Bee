@@ -22,8 +22,8 @@ class MessageQueueSender:
         self.channel = self.connection.channel()
         self.channel.queue_declare(self.queue_name)
 
-    def send(self, routing_key, message):
-        self.channel.basic_publish(exchange='', routing_key=routing_key, body=message)
+    def send(self, message):
+        self.channel.basic_publish(exchange='', routing_key=self.queue_name, body=message)
 
     def close_connection(self):
         self.connection.close()
