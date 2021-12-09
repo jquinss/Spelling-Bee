@@ -105,8 +105,9 @@ class WordGameServer(WordGameServicer, GameServerObservable):
         return WordSubmissionResponse(score=score, total=total, message=message)
 
     def QueryGameStatus(self, request, context):
-        game_id = request.game_id
+        game_id = request.gameId
         game_status = self.get_game_status(game_id)
+        game_status = "something"
         return GameStatusResponse(statusInfo=game_status)
 
     def get_game_status(self, game_id):
