@@ -2,8 +2,8 @@ from abc import ABC
 
 import grpc
 
-import word_game2_pb2
-import word_game2_pb2_grpc
+import word_game_pb2
+import word_game_pb2_grpc
 
 import time
 
@@ -41,7 +41,7 @@ class GameMainMenu(Menu):
         self.menu_options = {"1": self.create_new_game, "2": self.join_existing_game, "3": self.exit_menu}
         super().__init__(self.menu_text, self.menu_options)
         self.channel = grpc.insecure_channel('127.0.0.1:50055')
-        self.stub = word_game2_pb2_grpc.WordGameStub(self.channel)
+        self.stub = word_game_pb2_grpc.WordGameStub(self.channel)
 
 
     def create_new_game(self):
@@ -53,7 +53,7 @@ class GameMainMenu(Menu):
         username = self._create_username()
         join_code = input("Enter the join code: ")
 
-        join_game_response = self.stub.JoinGame(word_game2_pb2.JoinGameRequest(username=username, joinCode=join_code))
+        join_game_response = self.stub.JoinGame(word_game_pb2.JoinGameRequest(username=username, joinCode=join_code))
 
         join_response_code = join_game_response.responseCode
 
@@ -61,19 +61,19 @@ class GameMainMenu(Menu):
             game_id = join_game_response.gameId
             print("joining game. Waiting for the main player to initiate game")
             time.sleep(5)
-            letters = self.stub.GetPangram(word_game2_pb2.GetPangramRequest(gameId=game_id))
+            letters = self.stub.GetPangram(word_game_pb2.GetPangramRequest(gameId=game_id))
             self.game_loop = True
             while self.game_loop:
                 print(letters)
                 word = input("Enter a word (or command - enter \\h for a list of available commands): ")
                 if word == "\\s":
-                    status = self.stub.QueryGameStatus(word_game2_pb2.GameStatusRequest(gameId=game_id))
+                    status = self.stub.QueryGameStatus(word_game_pb2.GameStatusRequest(gameId=game_id))
                     print(status)
                 else:
                     print("submitted word " + word)
-                    response = self.stub.SubmitWord(word_game2_pb2.WordSubmissionRequest(gameId=game_id,
-                                                                                              username=username,
-                                                                                              word=word.lower()))
+                    response = self.stub.SubmitWord(word_game_pb2.WordSubmissionRequest(gameId=game_id,
+                                                                                        username=username,
+                                                                                        word=word.lower()))
                     print(response.message, "- Score:", response.score, "Total:", response.total)
 
 
@@ -106,20 +106,20 @@ class CreateGameMenu(Menu):
         print("Creating singleplayer game")
         print("Requesting username")
         username = self._create_username()
-        game_id = self.game_stub.CreateGame(word_game2_pb2.CreateGameRequest(username=username,
-                                            gameType=self.game_type, gameMode=game_mode)).gameId
-        self.game_stub.InitGame(word_game2_pb2.InitGameRequest(gameId=game_id))
-        letters = self.game_stub.GetPangram(word_game2_pb2.GetPangramRequest(gameId=game_id))
+        game_id = self.game_stub.CreateGame(word_game_pb2.CreateGameRequest(username=username,
+                                                                            gameType=self.game_type, gameMode=game_mode)).gameId
+        self.game_stub.InitGame(word_game_pb2.InitGameRequest(gameId=game_id))
+        letters = self.game_stub.GetPangram(word_game_pb2.GetPangramRequest(gameId=game_id))
         self.game_loop = True
         while self.game_loop:
             print(letters)
             word = input("Enter a word (or command - enter \\h for a list of available commands): ")
             if word == "\\s":
-                status = self.game_stub.QueryGameStatus(word_game2_pb2.GameStatusRequest(gameId=game_id))
+                status = self.game_stub.QueryGameStatus(word_game_pb2.GameStatusRequest(gameId=game_id))
                 print(status)
             else:
-                response = self.game_stub.SubmitWord(word_game2_pb2.WordSubmissionRequest(gameId=game_id,
-                                                                username=username, word=word.lower()))
+                response = self.game_stub.SubmitWord(word_game_pb2.WordSubmissionRequest(gameId=game_id,
+                                                                                         username=username, word=word.lower()))
                 print(response.message, "- Score:", response.score, "Total:", response.total)
 
     def create_multiplayer_coop_game(self):
@@ -127,31 +127,31 @@ class CreateGameMenu(Menu):
         print("Creating multiplayer cooperative game")
         print("Requesting username")
         username = self._create_username()
-        create_game_response = self.game_stub.CreateGame(word_game2_pb2.CreateGameRequest(username=username,
-                                                                             gameType=self.game_type,
-                                                                             gameMode=game_mode))
+        create_game_response = self.game_stub.CreateGame(word_game_pb2.CreateGameRequest(username=username,
+                                                                                         gameType=self.game_type,
+                                                                                         gameMode=game_mode))
         game_id = create_game_response.gameId
         join_code = create_game_response.joinCode
-        response_code = self.game_stub.InitGame(word_game2_pb2.InitGameRequest(gameId=game_id)).responseCode
+        response_code = self.game_stub.InitGame(word_game_pb2.InitGameRequest(gameId=game_id)).responseCode
         while response_code == 1:
             print(f"Waiting for another player to join - join code: {join_code}")
             time.sleep(5)
-            response_code = self.game_stub.InitGame(word_game2_pb2.InitGameRequest(gameId=game_id)).responseCode
+            response_code = self.game_stub.InitGame(word_game_pb2.InitGameRequest(gameId=game_id)).responseCode
         print("Starting game")
 
-        letters = self.game_stub.GetPangram(word_game2_pb2.GetPangramRequest(gameId=game_id))
+        letters = self.game_stub.GetPangram(word_game_pb2.GetPangramRequest(gameId=game_id))
         self.game_loop = True
         while self.game_loop:
             print(letters)
             word = input("Enter a word (or command - enter \\h for a list of available commands): ")
             if word == "\\s":
-                status = self.game_stub.QueryGameStatus(word_game2_pb2.GameStatusRequest(gameId=game_id))
+                status = self.game_stub.QueryGameStatus(word_game_pb2.GameStatusRequest(gameId=game_id))
                 print(status)
             else:
                 print("Submitted word " + word)
-                response = self.game_stub.SubmitWord(word_game2_pb2.WordSubmissionRequest(gameId=game_id,
-                                                                                          username=username,
-                                                                                          word=word.lower()))
+                response = self.game_stub.SubmitWord(word_game_pb2.WordSubmissionRequest(gameId=game_id,
+                                                                                         username=username,
+                                                                                         word=word.lower()))
                 print(response.message, "- Score:", response.score, "Total:", response.total)
 
     def _create_username(self):
