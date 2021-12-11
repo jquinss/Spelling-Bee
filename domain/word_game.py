@@ -22,7 +22,7 @@ class GameManager(ABC):
         pass
 
 
-class WordGameTemplate2(ABC):
+class WordGameTemplate(ABC):
     def __init__(self, word_lookup_service):
         self.word_lookup_service = word_lookup_service
         self.players = {}
@@ -64,7 +64,7 @@ class WordGameTemplate2(ABC):
         return score, self.players[player]["total"], message
 
 
-class SpellingBeeGame2(WordGameTemplate2, GameManager):
+class SpellingBeeGame2(WordGameTemplate, GameManager):
     MIN_WORD_LEN = 4
     PANGRAM_LEN = 7
     PANGRAM_BONUS = 7
