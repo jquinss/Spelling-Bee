@@ -228,7 +228,7 @@ class WordGameFactoryBuilder:
         return factory
 
 
-class WordGameFactory2(ABC):
+class WordGameFactory(ABC):
     def __init__(self, word_lookup_service):
         self.word_lookup_service = word_lookup_service
 
@@ -236,7 +236,7 @@ class WordGameFactory2(ABC):
         pass
 
 
-class SpellingBeeGameFactory(WordGameFactory2):
+class SpellingBeeGameFactory(WordGameFactory):
     def __init__(self, word_lookup_service):
         super().__init__(word_lookup_service)
 
