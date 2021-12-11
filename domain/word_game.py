@@ -64,7 +64,7 @@ class WordGameTemplate(ABC):
         return score, self.players[player]["total"], message
 
 
-class SpellingBeeGame2(WordGameTemplate, GameManager):
+class SpellingBeeGame(WordGameTemplate, GameManager):
     MIN_WORD_LEN = 4
     PANGRAM_LEN = 7
     PANGRAM_BONUS = 7
@@ -196,7 +196,7 @@ class SpellingBeeGame2(WordGameTemplate, GameManager):
         return formatted_pangram
 
 
-class MultiCoopSpellingBeeGame(SpellingBeeGame2):
+class MultiCoopSpellingBeeGame(SpellingBeeGame):
     def __init__(self, word_lookup_service=None, max_players=2):
         super().__init__(word_lookup_service=word_lookup_service, min_players=2, max_players=max_players)
         self.total_score = 0
@@ -242,7 +242,7 @@ class SpellingBeeGameFactory(WordGameFactory2):
 
     def create_game(self, game_mode, **kwargs):
         if game_mode == 'Single':
-            return SpellingBeeGame2(word_lookup_service=self.word_lookup_service)
+            return SpellingBeeGame(word_lookup_service=self.word_lookup_service)
         elif game_mode == 'MultiCoop':
             return MultiCoopSpellingBeeGame(word_lookup_service=self.word_lookup_service, **kwargs)
         else:
