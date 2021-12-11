@@ -342,6 +342,7 @@ class MultiCoopSpellingBeeGame(SpellingBeeGame2):
     def get_game_status(self):
         status = super().get_game_status()
         status["total_score"] = self.total_score
+        return status
 """
     def get_game_status(self):
         status = super().get_game_status()
