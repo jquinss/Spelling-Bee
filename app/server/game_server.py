@@ -9,9 +9,9 @@ import grpc
 
 from domain.word_game import WordGameFactoryBuilder, SpellingBeeGameFactory, MultiCoopSpellingBeeGame, \
     MinPlayersRequiredError, MaxPlayersLimitReachedError, UsernameAlreadyExistsError, GameStateError
-from word_game2_pb2 import CreateGameResponse, InitGameResponse, WordSubmissionResponse, JoinGameResponse, \
+from word_game_pb2 import CreateGameResponse, InitGameResponse, WordSubmissionResponse, JoinGameResponse, \
     GetPangramResponse, GameStatusResponse
-from word_game2_pb2_grpc import WordGameServicer, add_WordGameServicer_to_server
+from word_game_pb2_grpc import WordGameServicer, add_WordGameServicer_to_server
 from services.game_registry import GameRegistry
 from services.lookup_service import LookupServiceFactory
 
