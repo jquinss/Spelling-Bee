@@ -199,19 +199,15 @@ class SpellingBeeGame(WordGameTemplate, GameManager):
 class MultiCoopSpellingBeeGame(SpellingBeeGame):
     def __init__(self, word_lookup_service=None, max_players=2):
         super().__init__(word_lookup_service=word_lookup_service, min_players=2, max_players=max_players)
-        self.total_score = 0
         self.lock1 = Lock()
 
     def check_word(self, word, player):
         with self.lock1:
             score, player_total, message = super().check_word(word, player)
-            self.total_score += score
+            if score > 0:
+                for pl in self.players:
+                    self.players[pl]["total"] = player_total
             return score, player_total, message
-
-    def get_game_status(self):
-        status = super().get_game_status()
-        status["total_score"] = self.total_score
-        return status
 
 
 class WordGameFactoryBuilder:
