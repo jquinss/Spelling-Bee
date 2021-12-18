@@ -110,19 +110,6 @@ class SpellingBeeGame(WordGameTemplate, GameManager):
     def get_pangram_letters(self):
         return self.format_pangram_output(self.pangram_letters)
 
-    """
-    def get_game_status(self):
-        status = "Game Status:\n"
-        for player in self.players:
-            status += "Player: " + player + "\n"
-            status += "Total: " + str(self.players[player]["total"]) + "\n"
-            status += "Words:\n"
-            for word in self.players[player]["words"]:
-                score = self.words_found_list[word]
-                status += word + ": " + str(score) + "\n"
-        return status
-    """
-
     def get_game_status(self):
         status = {"pangram": self.pangram_letters, "players": self.players,
                   "words_found": self.words_found_list}
