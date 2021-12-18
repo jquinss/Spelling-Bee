@@ -8,7 +8,7 @@ PORT = 65512
 
 
 class MessageQueueConsumer(Thread):
-    def __init__(self, queue_name, hostname="localhost", callback=None):
+    def __init__(self, queue_name, hostname=HOSTNAME, callback=None):
         Thread.__init__(self)
         self.hostname = hostname
         self.queue_name = queue_name
