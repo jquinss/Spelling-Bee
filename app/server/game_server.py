@@ -9,9 +9,9 @@ import grpc
 
 from domain.word_game import WordGameFactoryBuilder, SpellingBeeGameFactory, MultiCoopSpellingBeeGame, \
     MinPlayersRequiredError, MaxPlayersLimitReachedError, UsernameAlreadyExistsError, GameStateError
-from word_game_pb2 import CreateGameResponse, InitGameResponse, WordSubmissionResponse, JoinGameResponse, \
-    GetPangramResponse, GameStatusResponse
-from word_game_pb2_grpc import WordGameServicer, add_WordGameServicer_to_server
+from protos.word_game_pb2 import CreateGameResponse, InitGameResponse, WordSubmissionResponse, JoinGameResponse, \
+    GetPangramResponse, GameStatusResponse, ListOfWords
+from protos.word_game_pb2_grpc import WordGameServicer, add_WordGameServicer_to_server
 from services.game_registry import GameRegistry
 from services.lookup_service import LookupServiceFactory
 
@@ -107,8 +107,17 @@ class WordGameServer(WordGameServicer, GameServerObservable):
     def QueryGameStatus(self, request, context):
         game_id = request.gameId
         game_status = self.get_game_status(game_id)
-        game_status = "something"
-        return GameStatusResponse(statusInfo=game_status)
+
+        players = []
+        scores = []
+        words = {}
+
+        for player in game_status['players']:
+            players.append(player)
+            scores.append(game_status['players'][player]['total'])
+            words[player] = ListOfWords(word=game_status['players'][player]['words'])
+
+        return GameStatusResponse(usernames=players, scores=scores, words=words)
 
     def get_game_status(self, game_id):
         game = self.registry.get_game(game_id)
