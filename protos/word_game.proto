@@ -65,8 +65,14 @@ message GameStatusRequest {
     string gameId = 1;
 }
 
+message ListOfWords {
+    repeated string word = 1;
+}
+
 message GameStatusResponse {
-    string statusInfo = 1;
+    repeated string usernames = 1;
+    repeated int32 scores = 2;
+    map<string, ListOfWords> words = 3;
 }
 
 message EndGameRequest {
