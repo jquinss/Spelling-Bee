@@ -3,7 +3,7 @@ from abc import ABC
 import grpc
 
 from protos.word_game_pb2 import CreateGameRequest, JoinGameRequest, GetPangramRequest, GameStatusRequest, \
-    WordSubmissionRequest, InitGameRequest
+    WordSubmissionRequest, InitGameRequest, ListOfWords
 from protos.word_game_pb2_grpc import WordGameStub
 
 import time
@@ -48,14 +48,24 @@ class GameMenu(Menu):
         self.game_loop = True
         while self.game_loop:
             print(letters)
-            word = input("Enter a word (or command - enter \\h for a list of available commands): ")
+            word = input("Enter a word (or enter \\s to see the game status): ")
             if word == "\\s":
                 status = self.stub.QueryGameStatus(GameStatusRequest(gameId=game_id))
-                # TO DO - print status
+                self.print_status(status)
             else:
                 response = self.stub.SubmitWord(WordSubmissionRequest(gameId=game_id, username=username,
                                                                       word=word.lower()))
                 print(response.message, "- Score:", response.score, "Total:", response.total)
+
+    def print_status(self, status):
+        print("GAME STATE:")
+        for i in range(len(status.usernames)):
+            user = status.usernames[i]
+            print(f"User: {user}, Score: {status.scores[i]}, Words found: ", end="")
+            words = status.words[user].word
+            for word in words:
+                print(word, end="", sep=",")
+            print()
 
     def _create_username(self):
         valid_user = False
