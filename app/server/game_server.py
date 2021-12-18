@@ -78,18 +78,20 @@ class WordGameServer(WordGameServicer, GameServerObservable):
         join_code = request.joinCode
         username = request.username
         response_code = 0
+        game_id = ""
         if join_code not in self.join_codes:
             response_code = 1
-        game_id = self.join_codes[join_code]
-        game = self.registry.get_game(game_id)
-        try:
-            game.add_player(username)
-        except MaxPlayersLimitReachedError:
-            response_code = 2
-        except UsernameAlreadyExistsError:
-            response_code = 3
-        except GameStateError:
-            response_code = 4
+        else:
+            game_id = self.join_codes[join_code]
+            game = self.registry.get_game(game_id)
+            try:
+                game.add_player(username)
+            except MaxPlayersLimitReachedError:
+                response_code = 2
+            except UsernameAlreadyExistsError:
+                response_code = 3
+            except GameStateError:
+                response_code = 4
         return JoinGameResponse(responseCode=response_code, gameId=game_id)
 
     def GetPangram(self, request, context):
