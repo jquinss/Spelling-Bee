@@ -3,6 +3,9 @@ from threading import Thread
 import socket
 import json
 
+HOSTNAME = "127.0.0.1"
+PORT = 65512
+
 
 class MessageQueueConsumer(Thread):
     def __init__(self, queue_name, hostname="localhost", callback=None):
@@ -51,4 +54,4 @@ class StatsServer:
                 self.send_all_stats(client_conn)
 
 
-StatsServer("localhost", 65512).run()
+StatsServer(HOSTNAME, PORT).run()
