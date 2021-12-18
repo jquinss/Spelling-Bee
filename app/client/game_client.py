@@ -41,9 +41,11 @@ class GameMenu(Menu):
         self.channel = grpc.insecure_channel('127.0.0.1:50055')
         self.stub = WordGameStub(self.channel)
         self.game_loop = False
+        self.join_game_error_codes = {1: "Invalid join code", 2: "The maximum number of players have been reached",
+                                      3: "The username already exists", 4: "The game has already started or finished"}
 
     def start_game(self, username, game_id):
-        print("Starting game")
+        print("Starting game...")
         letters = self.stub.GetPangram(GetPangramRequest(gameId=game_id))
         self.game_loop = True
         while self.game_loop:
@@ -81,7 +83,8 @@ class GameMenu(Menu):
 
 class GameMainMenu(GameMenu):
     def __init__(self):
-        self.menu_text = "1. Create a new game\n" \
+        self.menu_text = "SpellingBeeGame\n" \
+                         "1. Create a new game\n" \
                             "2. Join an existing game\n" \
                             "3. Quit"
         self.menu_options = {"1": self.create_new_game, "2": self.join_existing_game, "3": self.exit_menu}
@@ -102,15 +105,20 @@ class GameMainMenu(GameMenu):
 
         if join_response_code == 0:
             game_id = join_game_response.gameId
-            print("joining game. Waiting for the main player to initiate game")
+            print("Joining game...")
+            print("Waiting for the main player to initiate game...")
             time.sleep(5)
             self.start_game(username, game_id)
+        else:
+            print("Cannot join the game - Error: ", end="")
+            print(self.join_game_error_codes[join_response_code])
 
 
 class CreateGameMenu(GameMenu):
     def __init__(self):
         self.game_type = "SpellingBee"
-        self.menu_text = "1. Singleplayer game\n" \
+        self.menu_text = "Create a new game:\n" \
+                         "1. Singleplayer game\n" \
                          "2. Multiplayer game (2 player co-operative)\n" \
                          "3. Back to main menu"
         self.menu_options = {"1": self.create_singleplayer_game, "2": self.create_multiplayer_coop_game,
@@ -120,7 +128,6 @@ class CreateGameMenu(GameMenu):
     def create_singleplayer_game(self):
         game_mode = "Single"
         print("Creating singleplayer game")
-        print("Requesting username")
         username = self._create_username()
         game_id = self.stub.CreateGame(CreateGameRequest(username=username, gameType=self.game_type,
                                                          gameMode=game_mode)).gameId
@@ -130,7 +137,6 @@ class CreateGameMenu(GameMenu):
     def create_multiplayer_coop_game(self):
         game_mode = "MultiCoop"
         print("Creating multiplayer cooperative game")
-        print("Requesting username")
         username = self._create_username()
         create_game_response = self.stub.CreateGame(CreateGameRequest(username=username,
                                                                       gameType=self.game_type,
