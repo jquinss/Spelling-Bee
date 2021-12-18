@@ -3,7 +3,7 @@ from abc import ABC
 import grpc
 
 from protos.word_game_pb2 import CreateGameRequest, JoinGameRequest, GetPangramRequest, GameStatusRequest, \
-    WordSubmissionRequest, InitGameRequest, ListOfWords
+    WordSubmissionRequest, InitGameRequest
 from protos.word_game_pb2_grpc import WordGameStub
 
 import time
@@ -83,7 +83,7 @@ class GameMenu(Menu):
 
 class GameMainMenu(GameMenu):
     def __init__(self):
-        self.menu_text = "SpellingBeeGame\n" \
+        self.menu_text = "SpellingBeeGame!!\n" \
                          "1. Create a new game\n" \
                             "2. Join an existing game\n" \
                             "3. Quit"
