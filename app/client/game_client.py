@@ -63,11 +63,8 @@ class GameMenu(Menu):
         print("GAME STATE:")
         for i in range(len(status.usernames)):
             user = status.usernames[i]
-            print(f"User: {user}, Score: {status.scores[i]}, Words found: ", end="")
             words = status.words[user].word
-            for word in words:
-                print(word, end="", sep=",")
-            print()
+            print(f"User: {user}, Score: {status.scores[i]}, Words found: {words}")
 
     def _create_username(self):
         valid_user = False
