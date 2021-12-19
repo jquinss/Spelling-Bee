@@ -1,6 +1,7 @@
 import logging
 import string
 import random
+import datetime
 from concurrent import futures
 from services.stats_processor import MessageQueueSender, GameStatsQueueProcessor
 from abc import ABC, abstractmethod
@@ -123,7 +124,9 @@ class WordGameServer(WordGameServicer, GameServerObservable):
 
     def get_game_status(self, game_id):
         game = self.registry.get_game(game_id)
-        return game.get_game_status()
+        status = game.get_game_status()
+        status["timestamp"] = str(datetime.datetime.now())
+        return status
 
     def _generate_join_code(self, size=6, chars=string.ascii_uppercase + string.digits):
         return ''.join(random.choice(chars) for _ in range(size))
