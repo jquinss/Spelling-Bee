@@ -88,7 +88,6 @@ class GameMainMenu(GameMenu):
         super().__init__(self.menu_text, self.menu_options)
 
     def create_new_game(self):
-        print("Entering create new game sub-menu")
         submenu = CreateGameMenu()
         submenu.run()
 
@@ -97,9 +96,9 @@ class GameMainMenu(GameMenu):
         join_code = input("Enter the join code: ")
 
         join_game_response = self.stub.JoinGame(JoinGameRequest(username=username, joinCode=join_code))
-
         join_response_code = join_game_response.responseCode
 
+        # only joins the game if the response code is 0. Otherwise an error will be thrown
         if join_response_code == 0:
             game_id = join_game_response.gameId
             print("Joining game...")
@@ -141,6 +140,8 @@ class CreateGameMenu(GameMenu):
         game_id = create_game_response.gameId
         join_code = create_game_response.joinCode
         response_code = self.stub.InitGame(InitGameRequest(gameId=game_id)).responseCode
+
+        # waits for the second player to join
         while response_code == 1:
             print(f"Waiting for another player to join - join code: {join_code}")
             time.sleep(5)
