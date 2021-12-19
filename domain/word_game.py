@@ -215,6 +215,7 @@ class WordGameFactory(ABC):
     def __init__(self, word_lookup_service):
         self.word_lookup_service = word_lookup_service
 
+    @abstractmethod
     def create_game(self, game_mode, **kwargs):
         pass
 
