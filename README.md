@@ -13,9 +13,12 @@ This is client-server distributed application based on the New York Times’ Spe
 ## Technologies
 * Python: 3.6
 * grpc: 1.41.0
+* pika: 1.2.0
 
 ## Setup
-First run the server.py file to start the server. Next run the client.py file to start the client. Enjoy!!
+First run the game_server.py file to start the game server. Next run the game_client.py file to start the client.
+Optionally run the stats_server.py and stats_client.py
+Enjoy!!
 
 ## Patterns
 Patterns used:
@@ -73,18 +76,18 @@ This class manages the creation, registration and retrieval of games as they are
 
 * Where:
 
-WordGameFactory class (located in domain/word_game.py)
+SpellingBeeGameFactory class (located in domain/word_game.py)
 LookupServiceFactory class (located in services/lookup_service.py)
 
 * Why:
 
-**WordGameFactory class**
+**SpellingBeeGameFactory class**
 
-We define the factory method "create_word_game" that encapsulates the creation of word games. By passing parameters of game_type and word_lookup_service, we can retrieve a custom word game. For instance, to create a SpellingBee game we pass the "SpellingBee" parameter as game_type and a particular word lookup service that we want to use. If in the future we want to add more games or other lookup services we just need to modify this class.
+We define the factory method "create_game" that encapsulates the creation of word games of type SpellingBee. By passing parameters of game_mode and word_lookup_service, we can retrieve a custom SpellingBee game. For instance, to create a multi-player game we pass the "MultiCoop" parameter as game_mode and a particular word lookup service that we want to use. If in the future we want to add more types or other lookup services we just need to modify this class.
 
 **LookupServiceFactory class**
 
 In this case we define the factory method "create_lookup_service" that encapsulates the creation of lookup services. By passing parameters of lookup_type and source_files_dict, we can retrieve a custom lookup service. For example, in the SpellingBee game we create a JSON Lookup service by passing the "JSON" parameter as lookup_type and a dictionary containing JSON source files. If in the future we need to create another lookup service (e.g. that retrieves information from XML files) we just need to extend the LookupService class (e.g. add a XMLLookupService class) and modify this method to include that class.
 
 ## Status
-This will be further developed in the next assignment.
+Could be further developed to include a Multiplayer competitive mode, etc.
