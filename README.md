@@ -1,4 +1,4 @@
-# SOFT8023-Assignment-1-Spelling-Bee
+# SOFT8023-Assignment-2-Spelling-Bee
  
 ## Table of contents
 * [General info](#general-info)
