@@ -80,6 +80,7 @@ class WordGameServer(WordGameServicer, GameServerObservable):
         username = request.username
         response_code = 0
         game_id = ""
+        # logic for returning the corresponding response code
         if join_code not in self.join_codes:
             response_code = 1
         else:
@@ -103,6 +104,7 @@ class WordGameServer(WordGameServicer, GameServerObservable):
         game_id = request.gameId
         game = self.registry.get_game(game_id)
         score, total, message = game.check_word(request.word, request.username)
+        # whenever the user scores, it will notify the observers (stats servers in this case)
         if score != 0:
             self.notify_observers(game_id)
         return WordSubmissionResponse(score=score, total=total, message=message)
@@ -128,6 +130,7 @@ class WordGameServer(WordGameServicer, GameServerObservable):
         status["timestamp"] = str(datetime.datetime.now())
         return status
 
+    # method used to generate a join code
     def _generate_join_code(self, size=6, chars=string.ascii_uppercase + string.digits):
         return ''.join(random.choice(chars) for _ in range(size))
 
