@@ -79,6 +79,7 @@ class SpellingBeeGame(WordGameTemplate, GameManager):
         self.lock2 = Lock()
 
     def add_player(self, player):
+        # we do not want to allow more than one thread to access this method simultaneously
         with self.lock2:
             if len(self.players) >= self.max_players:
                 raise MaxPlayersLimitReachedError()
@@ -122,6 +123,7 @@ class SpellingBeeGame(WordGameTemplate, GameManager):
         return letters
 
     def check_word(self, word, player):
+        # we do not want to allow more than one thread to access this method simultaneously
         with self.lock2:
             if self.state != GameState.START:
                 raise GameStateError(self.state)
@@ -189,14 +191,17 @@ class MultiCoopSpellingBeeGame(SpellingBeeGame):
         self.lock1 = Lock()
 
     def check_word(self, word, player):
+        # we do not want to allow more than one thread to access this method simultaneously
         with self.lock1:
             score, player_total, message = super().check_word(word, player)
+            # in the coop game we set the total score for each player to be the same
             if score > 0:
                 for pl in self.players:
                     self.players[pl]["total"] = player_total
             return score, player_total, message
 
 
+# created factories
 class WordGameFactoryBuilder:
     def __init__(self):
         self.factories = {}
@@ -233,6 +238,8 @@ class SpellingBeeGameFactory(WordGameFactory):
             raise ValueError(game_mode)
 
 
+# Defined exceptions for different situations of the game (e.g. trying to add more players that the max number allowed,
+# trying to create a username that already exists, etc.)
 class MaxPlayersLimitReachedError(Exception):
     pass
 
@@ -245,6 +252,7 @@ class UsernameAlreadyExistsError(Exception):
     pass
 
 
+# defined enum with the different game states
 class GameState(Enum):
     SET_UP = 1
     START = 2
