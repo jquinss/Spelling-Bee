@@ -4,7 +4,6 @@
 * [General info](#general-info)
 * [Technologies](#technologies)
 * [Setup](#setup)
-* [Patterns](#patterns)
 * [Status](#status)
 
 ## General info
